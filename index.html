@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#123d46"><meta name="description" content="BuroPratika 2.0: copilota per le pratiche d’impresa e ricerca di agevolazioni.">
-<title>BuroPratika 2.1 — Fascicolo intelligente d’impresa</title>
+<title>BuroPratika 3.2 — Fascicolo Vivo e Chat AI</title>
 <style>
 :root{--ink:#152d33;--sea:#176577;--sea-dark:#123d46;--pale:#e8f3f2;--bg:#f6f8f7;--line:#d9e3e3;--muted:#627780;--gold:#f3ba68}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;color:var(--ink);line-height:1.5}a{color:var(--sea)}button,input,select{font:inherit}button{cursor:pointer}.shell{max-width:1080px;margin:0 auto;padding:0 22px}.top{background:#fff;border-bottom:1px solid var(--line)}.top .shell{display:flex;align-items:center;justify-content:space-between;min-height:76px;gap:12px}.logo{font-size:25px;font-weight:850;letter-spacing:-1px;color:var(--sea-dark)}.logo b{color:#de9550}.top small{color:var(--muted);font-weight:600}.hero{background:linear-gradient(135deg,#123d46,#176577);color:#fff;padding:62px 0 67px}.eyebrow{color:#bfe7e5;font-weight:750;letter-spacing:.12em;text-transform:uppercase;font-size:12px}.hero h1{font-size:clamp(33px,5vw,56px);line-height:1.12;letter-spacing:-1.8px;max-width:820px;margin:17px 0}.hero p{font-size:18px;max-width:690px;color:#deeeee}.pill{display:inline-block;border-radius:999px;background:#ffffff20;padding:8px 13px;font-size:13px;color:#f4fafa}.main{margin-top:-31px;padding-bottom:70px}.filters{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 32px #183e4310;padding:24px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:14px}.field label{display:block;font-size:12px;font-weight:750;margin-bottom:7px;color:#45616a}.field input,.field select{display:block;width:100%;min-width:0;outline:none;background:#fff;border:1px solid #cbd9d9;padding:13px 14px;border-radius:10px;color:var(--ink)}.field input:focus,.field select:focus{border-color:var(--sea);box-shadow:0 0 0 3px #2e91a520}.summary{margin:26px 0 16px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px}.summary h2{font-size:24px;letter-spacing:-.6px;margin:0}.summary span{font-size:14px;color:var(--muted)}.list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:13px;min-height:225px}.card h3{font-size:19px;letter-spacing:-.35px;line-height:1.3;margin:0;overflow-wrap:anywhere}.tags{display:flex;flex-wrap:wrap;gap:7px}.tag{font-size:11px;font-weight:750;padding:4px 9px;border-radius:999px;background:var(--pale);color:var(--sea-dark)}.tag.alert{background:#fff4dc;color:#805319}.origin{color:var(--muted);font-size:13px}.card p{color:#536b72;font-size:13px;margin:0}.card a{margin-top:auto;display:inline-flex;align-items:center;gap:7px;font-weight:750;text-decoration:none;font-size:14px}.card a:hover{text-decoration:underline}.state{background:white;border:1px solid var(--line);border-radius:15px;padding:26px;margin-top:16px;color:#536b72}.state strong{color:var(--ink)}.hidden{display:none!important}.pagination{text-align:center;margin-top:26px}.btn{border:1px solid var(--sea);background:var(--sea);color:white;border-radius:10px;padding:11px 19px;font-weight:750}.btn:disabled{opacity:.45;cursor:not-allowed}.foot{border-top:1px solid var(--line);padding:28px 0 42px;color:var(--muted);font-size:13px}.foot strong{color:var(--ink)}.setup{background:#fff7e7;border:1px solid #ecd7aa;border-radius:16px;padding:20px;margin-top:20px}.setup h2{margin:0 0 6px;font-size:18px}.setup p{font-size:14px;margin:6px 0 14px}.setup .field{margin-bottom:12px}.setup button{margin-right:9px}.setup .hint{font-size:12px;color:#6d5c3f}.territory{background:#fff;border:1px solid var(--line);border-radius:18px;margin-top:18px;padding:22px}.territory h2{margin:0 0 5px;font-size:21px}.territory p{margin:0 0 15px;color:var(--muted);font-size:13px}.territory-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.territory label{display:block;font-weight:750;font-size:12px;color:#45616a;margin-bottom:6px}.territory select,.territory input[type=text]{width:100%;padding:12px;border-radius:10px;border:1px solid #cbd9d9;background:white}.territory .check{display:flex;align-items:center;gap:8px;margin:12px 0}.territory .check label{margin:0;font-weight:600;font-size:13px}.territory button{margin-top:5px}.territory-note{font-size:12px;color:var(--muted);margin-top:8px}.priority{background:#edf6f0;color:#216444}.section-label{grid-column:1/-1;font-weight:850;font-size:18px;margin:16px 0 0}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}@media(max-width:700px){.filters{grid-template-columns:1fr;padding:18px}.territory-grid{grid-template-columns:1fr}.list{grid-template-columns:1fr}.hero{padding:44px 0 65px}.hero p{font-size:16px}.top small{display:none}.main{margin-top:-24px}.shell{padding:0 15px}}
@@ -16,13 +16,158 @@ html{scroll-behavior:smooth}.summary{scroll-margin-top:18px}.assist-btn{align-se
 .navline{background:#fff;border-bottom:1px solid var(--line)}.navline .shell{display:flex;gap:8px;overflow-x:auto;padding-top:10px;padding-bottom:10px}.navline a{white-space:nowrap;text-decoration:none;background:#eef5f4;padding:10px 15px;border-radius:999px;color:#194b55;font-size:13px;font-weight:750}.navline a:focus-visible,.navline a:hover{outline:2px solid #176577}.hub{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;margin-bottom:19px;box-shadow:0 8px 35px #163d4110}.hub h2{margin:0 0 6px;font-size:26px;letter-spacing:-.6px}.hub p{color:var(--muted);font-size:14px}.hubtop{display:flex;justify-content:space-between;gap:12px;align-items:center}.hubflag{font-size:11px;font-weight:800;letter-spacing:.06em;color:#206178;background:#eaf4f7;padding:7px 10px;border-radius:50px}.steps-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}.step-card{padding:15px;border:1px solid #d9e3e3;border-radius:14px;background:#f7faf9}.step-card strong{display:block;margin-bottom:4px}.step-card span{display:block;color:#5a737c;font-size:12px}.hub-form{display:grid;grid-template-columns:1fr 1fr;gap:13px}.hub-form label{font-size:12px;font-weight:750;color:#45616a;display:block;margin:0 0 5px}.hub-form input,.hub-form select{width:100%;padding:12px;border:1px solid #cbd9d9;border-radius:10px;background:white}.hubactions{display:flex;flex-wrap:wrap;gap:9px;margin:17px 0 0}.workflow{margin-top:20px;border-top:1px solid var(--line);padding-top:20px}.wf-state{font-size:13px;padding:12px;background:#edf5f4;border-radius:10px;color:#224b56}.wf-list{display:grid;gap:10px;margin:13px 0}.wf-item{padding:14px;border:1px solid var(--line);border-radius:12px}.wf-item header{display:flex;gap:12px;align-items:flex-start}.wf-item input{margin-top:5px;accent-color:#176577}.wf-item strong{font-size:14px}.wf-item p{font-size:12px;margin:6px 0}.wf-sources{margin-top:13px;display:flex;flex-wrap:wrap;gap:10px}.wf-sources a{font-size:12px;font-weight:750}.scope{padding:12px;border-radius:10px;background:#fff7e8;color:#65502b;font-size:12px;margin-top:12px}.safecopy{font-size:12px;color:var(--muted);margin-top:9px}.hub h3{margin:18px 0 6px}.mini{font-size:12px;color:var(--muted)}#pratiche,#bandi{scroll-margin-top:15px}@media(max-width:700px){.steps-cards,.hub-form{grid-template-columns:1fr}.hub{padding:18px}.hubtop{align-items:flex-start;flex-direction:column}}
 
 .intake{background:#fff;border:1px solid var(--line);padding:22px;border-radius:20px;margin:16px 0 28px;scroll-margin-top:18px}.intake h2{font-size:25px;margin:0 0 6px}.intake p{color:var(--muted)}.intake-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.intake-grid label{display:block;font-weight:700;font-size:13px;margin-bottom:6px}.intake-grid input,.intake-grid select,.intake-grid textarea{width:100%;min-height:46px;padding:10px;border:1px solid #cbdada;border-radius:11px;background:#fff}.intake-grid textarea{min-height:75px}.intake-grid .wide{grid-column:1/-1}.intake-actions{display:flex;flex-wrap:wrap;gap:9px;margin:15px 0}.intake-result{padding:16px;border-radius:14px;background:#f2f8f7;margin-top:14px}.intake-result h3{margin:0 0 6px;font-size:18px}.intake-result ul{padding-left:20px}.intake-result li{margin:7px 0}.intake-result a{font-weight:700}.notice-private{background:#fff4df;border-radius:12px;padding:12px;font-size:13px;margin-top:10px;color:#685024}.mini-badge{display:inline-block;background:#e3edee;border-radius:20px;padding:4px 10px;font-size:12px;font-weight:700;margin:3px}.evidence{background:#fff;border-left:4px solid #d3a24a;padding:12px;margin:10px 0;border-radius:8px}.intake code{word-break:break-all}.intake .btn{border:0}.intake button:disabled{opacity:.5} @media(max-width:650px){.intake-grid{grid-template-columns:1fr}}
+
+/* BuroPratika 3.0 – fascicolo vivo */
+.sales{border:1px solid #cfdfe0;background:#fff;border-radius:22px;padding:24px;margin:14px 0 24px;scroll-margin-top:24px}
+.sales h2{font-size:clamp(24px,4vw,34px);margin:0 0 12px}.sales p{color:#526a70;line-height:1.6}
+.sales-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}
+.sales-panel{border:1px solid #d6e1e2;border-radius:16px;padding:16px;background:#f8fbfb}
+.sales-panel strong{display:block;font-size:19px;margin-bottom:8px}
+.sales-panel small{color:#536c71;line-height:1.5;display:block}
+.sales-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
+.sales-note{border-left:4px solid #d5a24d;background:#fff8e9;padding:12px 15px;border-radius:9px;color:#5d4a28;margin-top:17px}
+.dossier-preview{white-space:pre-wrap;max-height:300px;overflow:auto;background:#f1f6f6;border:1px solid #cbdedf;border-radius:12px;padding:16px;font-size:13px;line-height:1.65;color:#24464c;margin:14px 0}
+.plan-label{font-size:12px;font-weight:700;letter-spacing:.1em;color:#176577;text-transform:uppercase}
+@media(max-width:700px){.sales-grid{grid-template-columns:1fr}.sales{padding:18px}}
+
+/* Fascicolo Vivo: funzioni accessibili anche da mobile */
+.vivo{border-radius:22px;background:linear-gradient(125deg,#fff,#edf5f3);padding:22px;border:1px solid #cbded9;margin:20px 0;scroll-margin-top:18px}
+.vivo h2{font-size:clamp(24px,4vw,34px);margin:0 0 6px}.vivo h3{margin:22px 0 9px}
+.vivo p,.vivo small{color:#4a636a}.vivo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.vivo-card{border:1px solid #d7e3e0;background:#fff;border-radius:14px;padding:15px}
+.vivo-card label{display:block;font-weight:700;font-size:13px;margin-bottom:6px}
+.vivo-card input,.vivo-card select,.vivo-card textarea{width:100%;padding:12px;border:1px solid #c5d7d5;border-radius:10px;background:#fff}
+.vivo-card textarea{min-height:90px}.vivo-actions{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.vivo-actions button{cursor:pointer}.vivo-status{border-left:4px solid #cfa154;background:#fff9eb;padding:12px 14px;border-radius:8px;margin:12px 0;white-space:pre-wrap}
+.rule-card{background:#fff;border:1px solid #d4e2df;border-radius:13px;margin:10px 0;padding:15px}
+.rule-card a{overflow-wrap:anywhere}.rule-meta{font-size:12px;color:#526d75}.rule-card strong{display:block;margin-bottom:5px}
+.vivo-pill{display:inline-block;border-radius:99px;background:#e4f1ee;padding:4px 9px;font-size:12px;font-weight:700;margin:3px 4px 4px 0}
+.vivo-pill.warn{background:#fff1d8;color:#785226}.vivo-pill.ok{background:#dbf0e5;color:#205b43}
+.vivo-action-note{font-size:13px;color:#566d72}.vivo-divider{border:none;border-top:1px solid #d6e4e2;margin:18px 0}
+@media(max-width:700px){.vivo-grid{grid-template-columns:1fr}.vivo{padding:16px}}
+
+/* BuroPratika 3.2 chat */
+#chat-ai{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;margin:20px 0 28px;box-shadow:0 8px 26px #123d460d}
+.ai-badge{display:inline-flex;border-radius:30px;background:#e8f3f2;color:#0e5360;font-size:12px;font-weight:800;padding:6px 10px}
+.ai-grid{display:grid;grid-template-columns:1fr;gap:12px}.ai-thread{height:360px;overflow-y:auto;background:#f4f8f8;border:1px solid #d5e4e6;border-radius:12px;padding:15px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
+.ai-msg{padding:12px 14px;border-radius:12px;max-width:93%;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;line-height:1.55}
+.ai-msg.assistant{background:#fff;border:1px solid #d6e3e5;align-self:start}.ai-msg.user{background:#176577;color:white;align-self:end}
+.ai-compose{display:flex;gap:10px;align-items:end}.ai-compose textarea{flex:1;min-width:0;resize:vertical;min-height:70px;padding:12px;border:1px solid #bdced0;border-radius:10px;font:inherit}
+.ai-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.ai-controls button{font-size:13px}.ai-small{font-size:12px;color:#546e75}.ai-error{color:#8a3e18;font-weight:650}
+@media(max-width:650px){#chat-ai{padding:16px}.ai-compose{flex-direction:column;align-items:stretch}.ai-compose button{width:100%}}
+</style>
+
+<style>
+#motore31{background:#fff;border:1px solid #cfe0e1;border-radius:20px;padding:24px;margin:18px 0 28px;box-shadow:0 8px 26px #163e4410}
+#motore31 h2{font-size:27px;margin:4px 0 9px;color:#173c45}#motore31 p{color:#536b72}
+.m31grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:16px 0}.m31grid label{display:block;font-size:13px;font-weight:750;color:#48616b}.m31grid input,.m31grid select{width:100%;padding:12px;margin-top:5px;border:1px solid #c6d7da;border-radius:9px;background:white;color:#183e45}
+.m31notice{border-left:4px solid #bf9140;background:#fff7e8;padding:13px;border-radius:8px;font-size:13px}.m31card{border:1px solid #d9e6e5;border-radius:12px;padding:16px;margin:12px 0}.m31card h3{font-size:17px;margin:0 0 8px}.m31card p{font-size:13px;margin:7px 0}.m31card a{overflow-wrap:anywhere}.m31actions{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.m31hint{font-size:12px;color:#506873}.m31tag{background:#eaf2f3;color:#21576a;padding:4px 8px;border-radius:10px;font-size:12px;display:inline-block}.m31card select{width:100%;max-width:400px;border-radius:8px;padding:9px;border:1px solid #b7d0d1}.m31no{background:#fff2e8;border-radius:8px;padding:12px}.m31ok{background:#e6f5e9;border-radius:8px;padding:12px}
+@media(max-width:700px){#motore31{padding:16px}.m31grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header class="top"><div class="shell"><div class="logo">Buro<b>Pratika</b></div><small>Il copilota delle pratiche d’impresa</small></div></header>
-<nav class="navline" aria-label="Sezioni"><div class="shell"><a href="#fascicolo">Fascicolo impresa</a><a href="#pratiche">La mia pratica</a><a href="#assistente">Profilo impresa</a><a href="#bandi">Bandi e incentivi</a></div></nav>
-<section class="hero"><div class="shell"><div class="eyebrow">BuroPratika 2.1 • Fascicolo intelligente e pratiche</div><h1>Dalla pratica da fare al percorso per completarla.</h1><p>Organizza gli adempimenti della tua impresa, prepara i controlli necessari e continua a cercare finanziamenti e bandi. Le decisioni si fondano sulle fonti istituzionali, non su risposte inventate.</p><div class="pill">Le segnalazioni devono essere verificate sulla fonte ufficiale.</div></div></section>
+<header class="top"><div class="shell"><div class="logo">Buro<b>Pratika</b></div><small>Il fascicolo operativo verificabile per le imprese</small></div></header>
+<nav class="navline" aria-label="Sezioni"><div class="shell"><a href="#chat-ai">Chat AI</a><a href="#workspace">Fascicolo Vivo</a><a href="#prodotto">Il servizio</a><a href="#dossier">Dossier</a><a href="#fascicolo">Fascicolo impresa</a><a href="#pratiche">La mia pratica</a><a href="#assistente">Profilo impresa</a><a href="#bandi">Bandi e incentivi</a></div></nav>
+<section class="hero"><div class="shell"><div class="eyebrow">BuroPratika 3.2 • Fascicolo Vivo d’Impresa</div><h1>Dalla pratica da fare al percorso per completarla.</h1><p>Organizza gli adempimenti della tua impresa, prepara i controlli necessari e continua a cercare finanziamenti e bandi. Le decisioni si fondano sulle fonti istituzionali, non su risposte inventate.</p><div class="pill">Le segnalazioni devono essere verificate sulla fonte ufficiale.</div></div></section>
 <main class="shell main">
+
+
+<section id="chat-ai" aria-labelledby="ai-title">
+  <span class="ai-badge">Novità · Vera chat AI — configurazione server necessaria</span>
+  <h2 id="ai-title">Chiedi al Copilota AI di BuroPratika</h2>
+  <p>Scrivi liberamente ciò che vuoi fare: «Ho un negozio ad Ancona e voglio cederlo: quali verifiche devo eseguire?». La chat usa le informazioni <strong>del profilo che scegli di condividere</strong> e, quando disponibili, le regole revisionate nel catalogo. Non deposita pratiche e non certifica la conformità.</p>
+  <div class="ai-grid">
+    <div class="ai-controls"><button class="btn outline" type="button" id="aiImport">Usa il mio profilo</button><button class="btn outline" type="button" id="aiClear">Nuova conversazione</button><span id="aiProfileText" class="ai-small">Nessun profilo condiviso</span></div>
+    <label class="ai-small"><input id="aiConsent" type="checkbox"/> Acconsento a inviare il messaggio e i dati di contesto selezionati a OpenAI tramite la funzione server Supabase per generare la risposta. Non inserire dati sanitari, credenziali o documenti riservati.</label>
+    <div id="aiThread" class="ai-thread" role="log" aria-live="polite"><div class="ai-msg assistant">Ciao! Sono il Copilota AI. Posso aiutarti a capire quali informazioni servono per una pratica, distinguendo sempre i controlli preliminari dalle verifiche normative documentate. Effettua l'accesso nel Fascicolo Vivo per iniziare.</div></div>
+    <div class="ai-compose"><textarea id="aiMessage" maxlength="2000" placeholder="Descrivi la tua attività e la pratica che desideri svolgere..." aria-label="Messaggio alla chat AI"></textarea><button class="btn" id="aiSend" type="button">Invia alla AI</button></div>
+    <div id="aiStatus" role="status" class="ai-small">Per attivare la chat: configura Supabase Auth, distribuisci la funzione server buropratika-ai e imposta OPENAI_API_KEY come segreto server. Mai inserirla in questo sito.</div>
+    <p class="ai-small">Le risposte AI possono essere errate. Solo le regole del catalogo con revisione approvata sono riportate come fonti documentali; l'AI non sostituisce SUAP, commercialista o consulente abilitato. Non caricare file in chat.</p>
+  </div>
+</section>
+
+<section id="motore31" aria-label="Motore di preparazione pratica">
+<span class="m31tag">BuroPratika 3.2 · Prova del motore operativo</span>
+<h2>La tua pratica, con fonti e prove da raccogliere</h2>
+<p>Parti dai dati dell'impresa, descrivi l'operazione e ottieni un registro operativo. I riferimenti istituzionali sono consultabili; <strong>l'applicabilità al tuo caso richiede una verifica del SUAP competente o del professionista</strong>.</p>
+<div class="m31grid">
+<label>Attività / descrizione<input id="m31activity" placeholder="Es. negozio di abbigliamento"></label>
+<label>Codice ATECO<input id="m31ateco" placeholder="Es. 47.71.10"></label>
+<label>Regione<select id="m31region"><option value="">Seleziona</option><option>Marche</option><option>Altra regione</option></select></label>
+<label>Comune<input id="m31city" placeholder="Es. Ancona"></label>
+<label>Operazione<select id="m31flow"><option value="">Seleziona</option><option value="apertura">Apertura</option><option value="subingresso">Cessione / subingresso</option><option value="trasferimento">Trasferimento sede</option><option value="modifica">Modifica dell'attività</option><option value="cessazione">Cessazione</option></select></label>
+<label>Tipo di attività<select id="m31sector"><option value="">Da indicare</option><option value="commercio">Commercio al dettaglio non alimentare</option><option value="alimentare">Attività alimentare</option><option value="altro">Altro settore</option></select></label>
+</div>
+<div class="m31actions"><button type="button" class="btn" id="m31generate">Prepara la mia pratica</button><button type="button" class="btn outline" id="m31reuse">Importa dal profilo impresa</button></div>
+<div class="m31notice"><strong>Tre livelli di affidabilità:</strong> «Fonte istituzionale individuata» indica che esiste una pagina pertinente; «Da verificare» indica che l'obbligo non è stato accertato per il caso concreto; «Confermato dall'utente» riguarda soltanto una dichiarazione personale. Nessun livello equivale a validazione o autorizzazione dell'ente.</div>
+<div id="m31results" aria-live="polite"></div>
+</section>
+
+
+
+<section id="workspace" class="vivo" aria-label="Fascicolo Vivo d'Impresa">
+<div class="plan-label">Novità · BuroPratika 3.0</div>
+<h2>Il Fascicolo Vivo della tua impresa</h2>
+<p>Non soltanto un elenco di adempimenti: crea una pratica, collega le evidenze e verifica quali passaggi sono <strong>documentati su fonti ufficiali</strong>. Distinguiamo sempre dati dichiarati, informazioni da verificare e regole controllate.</p>
+<div class="vivo-grid">
+<div class="vivo-card">
+<h3>1. Identità e archivio privato</h3>
+<label for="vivoEmail">Email professionale</label><input id="vivoEmail" type="email" autocomplete="email" placeholder="nome@impresa.it">
+<div class="vivo-actions"><button type="button" class="btn" id="vivoLogin">Ricevi link di accesso</button><button type="button" class="btn outline" id="vivoLogout" hidden>Esci</button></div>
+<div id="vivoAuthStatus" class="vivo-action-note" aria-live="polite">Puoi provare il fascicolo in locale. Per salvarlo online occorre configurare Auth di Supabase.</div>
+</div>
+<div class="vivo-card">
+<h3>2. La pratica da seguire</h3>
+<p class="vivo-action-note">Usa il profilo impresa e il tipo di pratica già compilati nelle sezioni sottostanti. I dati sono importati senza inviare documenti.</p>
+<label for="vivoCaseTitle">Nome del fascicolo</label><input id="vivoCaseTitle" maxlength="120" placeholder="Es. Subingresso negozio Ancona">
+<label for="vivoCaseNote">Note e decisioni</label><textarea id="vivoCaseNote" maxlength="3000" placeholder="Annota ciò che sai e cosa resta da accertare"></textarea>
+<div class="vivo-actions"><button type="button" class="btn" id="vivoBuild">Crea scheda tracciabile</button><button type="button" class="btn outline" id="vivoSave">Salva fascicolo privato</button></div>
+</div>
+</div>
+<div id="vivoStatus" class="vivo-status" role="status">Le informazioni mostrate non costituiscono una verifica ufficiale né un'autorizzazione amministrativa.</div>
+<div id="vivoSheet" aria-live="polite"></div>
+<hr class="vivo-divider">
+<div class="vivo-grid">
+<div class="vivo-card">
+<h3>3. Documenti protetti</h3>
+<p class="vivo-action-note">La lettura preliminare del documento, nella sezione Fascicolo intelligente, resta locale. Qui puoi archiviare una copia soltanto dopo avere effettuato l'accesso e dato esplicitamente il consenso al caricamento.</p>
+<label for="vivoFile">Documento del fascicolo</label><input id="vivoFile" type="file" accept=".pdf,.docx,.txt" />
+<label style="font-weight:400"><input type="checkbox" id="vivoConsent" style="width:auto"> Acconsento al caricamento nel mio archivio privato</label>
+<div class="vivo-actions"><button id="vivoUpload" type="button" class="btn outline">Carica nel mio archivio</button></div>
+<p id="vivoFiles" class="vivo-action-note">Nessun documento caricato in questa sessione.</p>
+</div>
+<div class="vivo-card">
+<h3>4. Servizi premium</h3>
+<span class="vivo-pill warn">Pagamenti disattivati finché non configurati</span>
+<p>Il piano a pagamento non deve promettere l'approvazione della pratica. Può includere archivio privato, tracciamento delle evidenze e lavoro con il professionista; un eventuale controllo normativo approfondito richiede fonti validate e responsabilità definite.</p>
+<div class="vivo-actions"><button id="vivoCheckout" type="button" class="btn" disabled>Attiva Studio · non ancora disponibile</button></div>
+<p class="vivo-action-note">Una volta attivati, i pagamenti avverranno su una pagina sicura del fornitore; mai inserire chiavi Stripe o dati delle carte in questo file.</p>
+</div>
+</div>
+</section>
+
+<section id="prodotto" class="sales" aria-label="Servizio BuroPratika">
+<div class="plan-label">Dalla ricerca al fascicolo di lavoro</div>
+<h2>La tua pratica, organizzata. Senza ricominciare ogni volta.</h2>
+<p>Inserisci il profilo della tua impresa, scegli l’operazione da svolgere e ottieni un <strong>dossier operativo scaricabile</strong> con controlli, punti ancora da verificare e collegamenti alle fonti istituzionali. Il dossier è un supporto di preparazione: non sostituisce una verifica normativa professionale né una pratica presentata all’ente.</p>
+<div class="sales-actions"><a class="btn" href="#fascicolo">1 · Crea il profilo impresa ↓</a><a class="btn outline" href="#pratiche">2 · Scegli la pratica ↓</a></div>
+<div class="sales-grid" aria-label="Piani del servizio">
+<div class="sales-panel"><div class="plan-label">Accesso gratuito — attivo</div><strong>0 €</strong><small>Profilo aziendale, ricerca bandi, percorsi preparatori e salvataggio locale.</small></div>
+<div class="sales-panel"><div class="plan-label">Dossier Plus — proposta pilota</div><strong>19 € / dossier</strong><small>Futuro dossier con documenti e norme verificati, storico dei controlli e revisione di qualità. <b>Non acquistabile oggi.</b></small></div>
+<div class="sales-panel"><div class="plan-label">Studio — proposta pilota</div><strong>59 € / mese</strong><small>Futuro workspace multi-impresa per commercialisti e consulenti. <b>Non acquistabile oggi.</b></small></div>
+</div>
+<div class="sales-note"><strong>Trasparenza:</strong> nessun pagamento è attivo. Le tariffe sono ipotesi da testare. Prima di venderle dobbiamo validare i procedimenti, introdurre account sicuri e integrare un pagamento effettivo.</div>
+</section>
+<section id="dossier" class="sales" aria-label="Esporta dossier operativo">
+<div class="plan-label">Funzione pronta da provare</div>
+<h2>Il tuo dossier operativo</h2>
+<p>Dopo aver compilato il fascicolo e creato il percorso, genera il riepilogo dei dati dichiarati e dei passaggi completati. Il file HTML si apre anche offline ed è stampabile in PDF dal browser. <strong>Non include documenti caricati né la partita IVA completa.</strong></p>
+<div class="sales-actions"><button type="button" class="btn" id="dossierMake">Genera anteprima del dossier</button><button type="button" class="btn outline" id="dossierDownload" disabled>Scarica dossier HTML</button><button type="button" class="btn outline" id="dossierPrint" disabled>Stampa / salva PDF</button></div>
+<div id="dossierStatus" class="mini" role="status">Compila un profilo e seleziona una pratica per iniziare.</div>
+<pre id="dossierPreview" class="dossier-preview" hidden></pre>
+<div class="sales-note">Indicazioni preparatorie, non attestazione ufficiale. Gli atti e gli allegati obbligatori variano in base ad attività, operazione, Comune e norme vigenti. Non è prevista la trasmissione della pratica.</div>
+</section>
+
 
 
 <section id="fascicolo" class="intake" aria-label="Fascicolo intelligente d'impresa">
@@ -336,5 +481,210 @@ $('firmApply').addEventListener('click',()=>{const d=firmAnalyze();if(d.firmCity
 });
 $('firmClear').addEventListener('click',()=>{for(const id of firmEls)$(id).value='';$('firmFile').value='';importedFirmText='';firmFindings={};$('firmInsights').innerHTML='<strong>Dati cancellati dalla pagina.</strong> I profili precedentemente salvati nei filtri bandi possono essere azzerati con “Azzera profilo”.';$('firmImportStatus').textContent='Nessun documento in memoria.';});
 
+
+// BuroPratika 2.2: dossier locale con stato verificato/non verificato.
+let dossierCache=null;
+function dossierEscape(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function dossierBuild(){
+ const firm=firmRead();const flow=wfSettings();const def=WF_DEFS[flow.type];
+ if(!def){$('dossierStatus').textContent='Seleziona una pratica valida.';return;}
+ const completed=wfRead(flow);
+ const items=def.items.map(([k,label,note])=>({label,note,done:Boolean(completed[k])}));
+ const now=new Date().toLocaleString('it-IT');
+ const lines=['BUROPRATIKA 2.2 — DOSSIER OPERATIVO PREPARATORIO','Generato: '+now,'',
+ 'PROFILO (DATI DICHIARATI, NON CERTIFICATI)',
+ 'Impresa: '+(firm.firmName||'Non indicata'),
+ 'Settore: '+(firm.firmSector||'Non determinato'),
+ 'ATECO: '+(firm.firmAteco||'Non indicato'),
+ 'Comune: '+(firm.firmCity||flow.city||'Non indicato'),
+ 'Regione: '+(firm.firmRegion||flow.region||'Non indicata'),
+ 'Partita IVA: '+(firm.firmVat?'Presente nel modulo (non riportata nel dossier)':'Non indicata'),'',
+ 'PRATICA',def.title,'Settore del percorso: '+(flow.sector||'Non indicato'),'Comune del percorso: '+(flow.city||'Non indicato'),'',
+ 'CONTROLLI PREPARATORI',
+ ...items.map((x,i)=>`${i+1}. [${x.done?'SEGNATO COMPLETATO':'DA APPROFONDIRE'}] ${x.label}\n   Nota: ${x.note}`),'',
+ 'FONTI DA CONSULTARE (NON COLLEGATE AUTOMATICAMENTE AL SINGOLO REQUISITO)',
+ 'SUAP: https://www.impresainungiorno.gov.it/',
+ 'Registro Imprese: https://www.registroimprese.it/',
+ 'Verifica P.IVA ufficiale: https://telematici.agenziaentrate.gov.it/VerificaPIVA/Scegli.jsp','',
+ 'LIMITI: questo file contiene dati dichiarati e spunte dell’utente. Non valida né certifica requisiti, atti, scadenze o ammissibilità. Non invia pratiche.'];
+ const report=lines.join('\n');
+ const html='<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Dossier BuroPratika</title><style>body{max-width:850px;margin:40px auto;padding:20px;font:15px/1.6 system-ui;color:#18363c}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}h1{color:#176577}@media print{body{margin:0;padding:0}}</style></head><body><h1>BuroPratika · Dossier operativo</h1><pre>'+dossierEscape(report)+'</pre></body></html>';
+ dossierCache={html,report};
+ $('dossierPreview').hidden=false;$('dossierPreview').textContent=report;
+ $('dossierDownload').disabled=false;$('dossierPrint').disabled=false;
+ $('dossierStatus').textContent='Dossier preparatorio generato sul tuo dispositivo: '+items.filter(x=>x.done).length+'/'+items.length+' controlli segnati completati. Nessuna verifica ufficiale eseguita.';
+}
+$('dossierMake').addEventListener('click',dossierBuild);
+$('dossierDownload').addEventListener('click',()=>{if(!dossierCache)return;const u=URL.createObjectURL(new Blob([dossierCache.html],{type:'text/html;charset=utf-8'}));const a=document.createElement('a');a.href=u;a.download='BuroPratika-dossier-operativo.html';a.click();setTimeout(()=>URL.revokeObjectURL(u),3000);});
+$('dossierPrint').addEventListener('click',()=>{if(!dossierCache)return;const w=window.open('','_blank');if(!w){$('dossierStatus').textContent='Safari ha bloccato la stampa: scarica il dossier HTML e stampalo da lì.';return;}w.document.write(dossierCache.html);w.document.close();w.focus();w.print();});
+</script>
+
+<script type="module">
+/* BuroPratika 3.0. Public values only. Never paste service_role or Stripe secrets. */
+const CONFIG={
+  url:'https://bqcaohfochwweymgfjtd.supabase.co',
+  publicKey:'', // configure only sb_publishable_... or anon public key
+  paymentsEnabled:false
+};
+const $=id=>document.getElementById(id);
+const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const status=t=>{$('vivoStatus').textContent=t};
+let client=null,user=null,current=null,files=[];
+let rules=[];
+function cfg(){let saved={};try{saved=JSON.parse(localStorage.getItem('buropratika_public_config')||'{}')||{}}catch{}
+return {url:CONFIG.url||saved.url,key:CONFIG.publicKey||saved.key};}
+async function initialize(){
+ const c=cfg();if(!c.key){$('vivoAuthStatus').textContent='Archivio online non configurato: manca la chiave pubblica Supabase. Le schede di prova rimangono locali.';return;}
+ try{
+  const {createClient}=await import('https://esm.sh/@supabase/supabase-js@2');
+  client=createClient(c.url,c.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  const {data,error}=await client.auth.getUser();if(error)console.info('Utente non autenticato');user=data?.user||null;
+  client.auth.onAuthStateChange((_event,session)=>{user=session?.user||null;authUI();});
+  authUI();
+ }catch(e){$('vivoAuthStatus').textContent='Connessione dell’archivio non disponibile: '+e.message;}
+}
+function authUI(){
+ $('vivoLogout').hidden=!user;$('vivoLogin').hidden=!!user;
+ $('vivoAuthStatus').textContent=user?'Accesso effettuato: '+user.email+'. I tuoi fascicoli sono protetti dalle regole RLS.':'Non hai effettuato l’accesso. Puoi usare il percorso locale gratuito.';
+ $('vivoCheckout').disabled=!(CONFIG.paymentsEnabled&&user);
+}
+$('vivoLogin').addEventListener('click',async()=>{
+ if(!client){status('Configura prima una chiave pubblica Supabase, mai la chiave segreta.');return;}
+ const email=$('vivoEmail').value.trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){status('Inserisci un indirizzo email valido.');return;}
+ try{const {error}=await client.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname}});if(error)throw error;status('Controlla la tua email per il link di accesso.');}catch(e){status('Accesso: '+e.message);}
+});
+$('vivoLogout').addEventListener('click',async()=>{if(client)await client.auth.signOut();user=null;authUI();});
+function readInputs(){return {name:$('firmName').value.trim(),vat:$('firmVat').value.trim(),ateco:$('firmAteco').value.trim(),city:$('firmCity').value.trim()||$('flowCity').value.trim(),region:$('firmRegion').value||$('flowRegion').value,sector:$('firmSector').value||$('flowSector').value,flow:$('flowType').value,title:$('vivoCaseTitle').value.trim()||'Fascicolo aziendale',notes:$('vivoCaseNote').value.trim()};}
+function makeCase(){const x=readInputs();current={...x,createdAt:new Date().toISOString(),checks:[],sources:[]};
+ try{localStorage.setItem('buropratika_vivo_bozza',JSON.stringify(current));}catch{}
+ renderCase();return current;
+}
+async function loadRules(){
+ rules=[];
+ if(!client)return;
+ const {data,error}=await client.from('rules_catalog').select('id,title,flow_type,sector,region,city,requirement,source_url,source_title,article_ref,source_version,verified_at,valid_until').eq('published',true).eq('review_status','verified').limit(200);
+ if(error){console.info('Catalogo regole non disponibile',error.message);return;}
+ rules=(data||[]).filter(r=>r.verified_at&&(!r.valid_until||r.valid_until>=new Date().toISOString().slice(0,10)));
+}
+function filteredRules(x){const n=s=>String(s||'').trim().toLocaleLowerCase('it');return rules.filter(r=>(!r.flow_type||r.flow_type===x.flow)&&(!r.sector||n(r.sector)===n(x.sector))&&(!r.region||n(r.region)===n(x.region))&&(!r.city||n(r.city)===n(x.city)));}
+function renderCase(){if(!current)return;const x=current, applicable=filteredRules(x), total=applicable.length;
+ const head=`<div class="vivo-card"><h3>${safe(x.title)}</h3><span class="vivo-pill">${safe(x.flow||'Pratica da definire')}</span><span class="vivo-pill">${safe(x.city||'Comune non indicato')}, ${safe(x.region||'Regione non indicata')}</span><span class="vivo-pill">ATECO: ${safe(x.ateco||'non indicato')}</span><p class="vivo-action-note">Profilo dichiarato: ${safe(x.name||'impresa non indicata')}. Partita IVA: ${safe(x.vat?'fornita, identità non verificata':'non indicata')}.</p><p><strong>Copertura fonti: ${total} regole pubblicate e revisionate pertinenti.</strong></p></div>`;
+ let detail=total?applicable.map(r=>`<article class="rule-card"><span class="vivo-pill ok">Fonte revisionata</span><strong>${safe(r.title)}</strong><p>${safe(r.requirement)}</p><p class="rule-meta">${safe(r.source_title||'Fonte istituzionale')} · ${safe(r.article_ref||'Paragrafo non disponibile')} · versione ${safe(r.source_version||'non indicata')} · revisionata ${safe(r.verified_at?.slice(0,10)||'?')}</p><a href="${safe(r.source_url)}" target="_blank" rel="noopener noreferrer">Apri la fonte ufficiale ↗</a><div class="vivo-actions"><label><input type="checkbox" data-rule="${safe(r.id)}" ${x.checks.includes(r.id)?'checked':''}> Documento/requisito controllato dall’utente</label></div></article>`).join(''):
+ '<div class="vivo-status"><strong>Nessuna regola ufficiale verificata disponibile per questa combinazione.</strong> Il sistema non può stabilire documenti obbligatori, scadenze o ammissibilità. Usa il percorso preparatorio e consulta il SUAP competente. Nessun requisito inventato.</div>';
+ $('vivoSheet').innerHTML=head+`<h3>Registro delle regole e delle evidenze</h3>${detail}<p class="vivo-action-note">Una spunta indica una dichiarazione dell’utente, NON una certificazione dell’ente. Le fonti devono restare aggiornate e revisionate.</p><div class="vivo-actions"><button id="vivoExport" class="btn outline" type="button">Esporta scheda in JSON</button></div>`;
+ $('vivoSheet').querySelectorAll('[data-rule]').forEach(el=>el.addEventListener('change',()=>{const id=el.getAttribute('data-rule');current.checks=el.checked?[...new Set([...current.checks,id])]:current.checks.filter(v=>v!==id);try{localStorage.setItem('buropratika_vivo_bozza',JSON.stringify(current))}catch{}}));
+ $('vivoExport').addEventListener('click',()=>{const blob=new Blob([JSON.stringify({version:'3.0',case:current,matched_rules:filteredRules(current)},null,2)],{type:'application/json'});const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='buropratika-fascicolo.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)});
+}
+$('vivoBuild').addEventListener('click',async()=>{await loadRules();makeCase();status('Scheda generata. Le regole non validate non producono giudizi di conformità.');});
+$('vivoSave').addEventListener('click',async()=>{
+ if(!user||!client){status('Per salvare su un archivio privato devi prima effettuare l’accesso. La bozza locale rimane disponibile.');return;}
+ if(!current)makeCase();const x=current;
+ try{
+ const {data:firm,error:fe}=await client.from('companies').upsert({owner_id:user.id,name:x.name||'Impresa',vat:x.vat||null,ateco:x.ateco||null,city:x.city||null,region:x.region||null,sector:x.sector||null},{onConflict:'owner_id,vat_key'}).select('id').single();
+ if(fe)throw fe;
+ const {data,error}=await client.from('cases').insert({owner_id:user.id,company_id:firm.id,title:x.title,flow_type:x.flow,notes:x.notes,workflow_snapshot:{city:x.city,region:x.region,ateco:x.ateco,checks:x.checks},status:'draft'}).select('id').single();
+ if(error)throw error;x.cloudId=data.id;status('Fascicolo salvato nell’archivio privato. ID: '+data.id);}
+ catch(e){status('Salvataggio non riuscito: '+e.message+' Verifica che la migrazione SQL sia stata applicata.');}
+});
+$('vivoUpload').addEventListener('click',async()=>{
+ if(!user||!client||!current?.cloudId){status('Effettua l’accesso e salva prima il fascicolo privato.');return;}
+ if(!$('vivoConsent').checked){status('Per caricare documenti devi selezionare la casella di consenso.');return;}
+ const f=$('vivoFile').files?.[0];if(!f){status('Seleziona un documento.');return;}
+ const ext=(f.name.split('.').pop()||'').toLowerCase();const formats={pdf:'application/pdf',docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',txt:'text/plain'};
+ if(!formats[ext]||f.size>8*1024*1024){status('Sono accettati PDF, DOCX o TXT fino a 8 MB.');return;}
+ try{
+ const path=`${user.id}/${current.cloudId}/${crypto.randomUUID()}.${ext}`;
+ const {error}=await client.storage.from('company-documents').upload(path,f,{contentType:formats[ext],upsert:false});if(error)throw error;
+ const {error:me}=await client.from('case_documents').insert({owner_id:user.id,case_id:current.cloudId,storage_path:path,file_name:f.name,mime_type:formats[ext],byte_size:f.size});if(me)throw me;
+ $('vivoFiles').textContent=`Caricato nell’archivio privato: ${f.name}`;status('Documento salvato con accesso riservato. Non è stato analizzato o certificato.');
+ }catch(e){status('Caricamento non riuscito: '+e.message);}
+});
+$('vivoCheckout').addEventListener('click',async()=>{
+ if(!CONFIG.paymentsEnabled||!client||!user){status('Pagamento non attivato.');return;}
+ try{const {data:{session}}=await client.auth.getSession();const resp=await fetch(cfg().url+'/functions/v1/create-checkout',{method:'POST',headers:{'Content-Type':'application/json',apikey:cfg().key,Authorization:'Bearer '+session.access_token},body:JSON.stringify({plan:'studio'})});const body=await resp.json();if(!resp.ok||!body.url)throw Error(body.error||'Checkout non disponibile');location.assign(body.url);}catch(e){status('Acquisto non disponibile: '+e.message);}
+});
+try{const draft=JSON.parse(localStorage.getItem('buropratika_vivo_bozza')||'null');if(draft&&typeof draft==='object'){current={...draft,checks:Array.isArray(draft.checks)?draft.checks:[]};$('vivoCaseTitle').value=current.title||'';$('vivoCaseNote').value=current.notes||'';renderCase()}}catch{}
+initialize();
+</script>
+
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const SOURCE={
+ region:{name:'Regione Marche — Modulistica SUAP',url:'https://www.regione.marche.it/Regione-Utile/Attivit%C3%A0-Produttive/Modulistica-SUAP',info:'Catalogo istituzionale della modulistica regionale, soggetto ad aggiornamenti.'},
+ retail:{name:'Regione Marche — Commercio in sede fissa',url:'https://www.regione.marche.it/Entra-in-Regione/Commercio-Marche/Aree-tematiche/Sede-fissa/Modulistica',info:'Modulistica e riferimenti per commercio in sede fissa; verificare il modulo vigente.'},
+ suap:{name:'Impresa in un giorno — individuazione SUAP competente',url:'https://www.impresainungiorno.gov.it/',info:'Per verificare il procedimento concreto con il Comune competente.'},
+ ri:{name:'Registro Imprese — informazioni e servizi',url:'https://www.registroimprese.it/',info:'Per gli adempimenti camerali eventualmente pertinenti.'}
+};
+let current=null;
+function read(){return {activity:$('m31activity').value.trim(),ateco:$('m31ateco').value.trim(),region:$('m31region').value,city:$('m31city').value.trim(),flow:$('m31flow').value,sector:$('m31sector').value};}
+function item(id,title,why,source){return {id,title,why,source,status:'Da verificare',note:''};}
+function itemsFor(x){const a=[
+ item('suap','Individuare il SUAP competente e il procedimento applicabile','Il procedimento dipende dal Comune, dall’operazione e dal tipo di attività.','suap'),
+ item('documenti','Raccogliere la documentazione specifica del caso','Gli allegati obbligatori non possono essere dedotti dalla sola descrizione dell’attività.','suap'),
+ item('ri','Valutare gli adempimenti presso il Registro Imprese','Controllare con il professionista tempi e modalità legati alla specifica operazione.','ri')
+ ];
+ if(x.region==='Marche'){
+ a.unshift(item('marche','Consultare la modulistica regionale vigente','La Regione pubblica moduli e aggiornamenti; confrontare con la procedura del Comune.','region'));
+ if(x.sector==='commercio')a.push(item('commercio','Controllare la modulistica del commercio in sede fissa','Verificare se e quale modulo sia pertinente alla dimensione e alle caratteristiche dell’esercizio.','retail'));
+ if(x.flow==='subingresso')a.push(item('subingresso','Esaminare il modulo regionale di subingresso','La Regione Marche pubblica un modulo di comunicazione per il subingresso. Verificare versione vigente e applicabilità con il SUAP.','region'));
+ if(x.flow==='cessazione')a.push(item('cessazione','Esaminare la modulistica regionale per cessazione o sospensione','Esistono modelli regionali; accertare procedura e termini presso il SUAP.','region'));
+ if(x.sector==='alimentare')a.push(item('sanitaria','Verificare se è necessaria una notifica sanitaria','La modulistica regionale contempla la notifica sanitaria degli operatori alimentari, ma i presupposti concreti vanno verificati.','region'));
+ }
+ if(x.flow==='subingresso')a.push(item('titolo','Identificare natura dell’operazione e documenti del trasferimento','Distinguere cessione d’azienda, ramo d’azienda, affitto d’azienda e trasferimento quote; far valutare gli atti al professionista competente.','suap'));
+ if(x.flow==='trasferimento')a.push(item('locali','Controllare i requisiti dei nuovi locali','Destinazione d’uso, titoli, eventuali autorizzazioni e condizioni specifiche richiedono istruttoria sul caso.','suap'));
+ return a;}
+function links(keys){return [...new Set(keys)].map(k=>SOURCE[k]).map(s=>'<li><a href="'+esc(s.url)+'" rel="noopener noreferrer" target="_blank">'+esc(s.name)+'</a> — '+esc(s.info)+'</li>').join('');}
+function render(){if(!current)return;const x=current,vals=x.items;const count=vals.filter(v=>v.status==='Confermato dall’utente').length;
+ $('m31results').innerHTML=`<div class="m31card"><h3>Dossier: ${esc(x.activity||'Attività non specificata')}</h3><p>ATECO: ${esc(x.ateco||'non indicato')} · ${esc(x.city||'Comune non indicato')}, ${esc(x.region||'Regione non indicata')} · ${esc(x.flow||'Operazione non indicata')}</p><p><strong>${count}/${vals.length}</strong> controlli segnati dall'utente. Nessun requisito certificato.</p>${x.region!=='Marche'?'<div class="m31no">Le regole regionali specifiche non sono state ancora mappate per questo territorio. Nessuna valutazione di conformità disponibile.</div>':''}</div><h3>Registro operativo</h3>`+vals.map((v,i)=>{const s=SOURCE[v.source];return `<div class="m31card"><h3>${i+1}. ${esc(v.title)}</h3><span class="m31tag">Fonte istituzionale individuata · applicabilità da verificare</span><p>${esc(v.why)}</p><p><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.name)} ↗</a></p><label class="m31hint" for="m31status${i}">Stato del controllo (dichiarazione utente)</label><select id="m31status${i}" data-m31status="${esc(v.id)}"><option value="Da verificare">Da verificare</option><option value="Confermato dall’utente">Confermato dall’utente</option><option value="Non applicabile da accertare">Non applicabile da accertare</option></select><label class="m31hint" for="m31note${i}">Nota / documento da acquisire</label><input id="m31note${i}" data-m31note="${esc(v.id)}" value="${esc(v.note)}" placeholder="Es. richiesta inviata al SUAP" style="width:100%;padding:10px;border:1px solid #cbd9d9;border-radius:8px"></div>`;}).join('')+`<div class="m31card"><h3>Fonti istituzionali da consultare</h3><ul>${links(vals.map(v=>v.source))}</ul><p>Questo elenco non è esaustivo per tutte le attività, titoli e circostanze locali.</p></div><div class="m31actions"><button class="btn" type="button" id="m31export">Scarica dossier HTML</button><button class="btn outline" type="button" id="m31print">Stampa / salva PDF</button></div>`;
+ for(const e of document.querySelectorAll('[data-m31status]')){e.value=vals.find(v=>v.id===e.dataset.m31status).status;e.addEventListener('change',()=>{vals.find(v=>v.id===e.dataset.m31status).status=e.value;persist();});}
+ for(const e of document.querySelectorAll('[data-m31note]'))e.addEventListener('input',()=>{vals.find(v=>v.id===e.dataset.m31note).note=e.value;persist();});
+ $('m31export').onclick=()=>{const blob=new Blob([exportHtml()],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='BuroPratika-dossier-tracciabile.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),3000);};
+ $('m31print').onclick=()=>{const w=window.open('','_blank');if(!w){alert('Safari ha bloccato la finestra: usa Scarica dossier HTML.');return;}w.document.write(exportHtml());w.document.close();w.focus();w.print();};
+}
+function exportHtml(){const x=current;const rows=x.items.map(v=>`<section><h3>${esc(v.title)}</h3><p><strong>Stato:</strong> ${esc(v.status)} — dichiarato dall'utente</p><p>${esc(v.why)}</p><p><strong>Nota:</strong> ${esc(v.note||'Nessuna')}</p><p><strong>Fonte da consultare:</strong> <a href="${esc(SOURCE[v.source].url)}">${esc(SOURCE[v.source].name)}</a></p><p><strong>Applicabilità:</strong> non accertata automaticamente</p></section>`).join('');return `<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Dossier BuroPratika</title><style>body{font:15px/1.55 system-ui;max-width:800px;margin:30px auto;padding:18px;color:#183b43}section{border-bottom:1px solid #ddd;padding:10px 0}a{overflow-wrap:anywhere}</style></head><body><h1>BuroPratika — Dossier operativo tracciabile</h1><p>Generato il ${esc(new Date().toLocaleString('it-IT'))}</p><p>Impresa: ${esc(x.activity)} · ATECO ${esc(x.ateco)} · ${esc(x.city)}, ${esc(x.region)} · operazione ${esc(x.flow)}</p><p><strong>Documento preparatorio.</strong> Nessuna verifica ufficiale di requisiti o ammissibilità; adempimenti da confermare con le fonti e gli enti competenti.</p>${rows}</body></html>`;}
+function persist(){try{localStorage.setItem('buropratika_motore31',JSON.stringify(current))}catch{}}
+$('m31generate').addEventListener('click',()=>{const x=read();if(!x.region||!x.flow||!x.sector||!x.city){$('m31results').innerHTML='<div class="m31no">Indica almeno Regione, Comune, tipo di attività e operazione.</div>';return;}current={...x,items:itemsFor(x)};persist();render();$('m31results').scrollIntoView({behavior:'smooth',block:'start'});});
+$('m31reuse').addEventListener('click',()=>{for(const [a,b] of [['m31activity','firmName'],['m31ateco','firmAteco'],['m31city','firmCity']])if($(b)?.value)$(a).value=$(b).value;const r=$('firmRegion')?.value;if(r)$('m31region').value=r==='Marche'?'Marche':'Altra regione';const flow=String($('flowType')?.value||'').toLowerCase();if(['apertura','subingresso','trasferimento','modifica','cessazione'].includes(flow))$('m31flow').value=flow;const sector=String($('firmSector')?.value||'').toLowerCase(),a=$('m31ateco').value.replace(/\D/g,'');$('m31sector').value=sector.includes('ristor')||sector.includes('aliment')?'alimentare':sector.includes('commerc')||a.startsWith('47')?'commercio':'altro';$('m31results').innerHTML='<div class="m31ok">Dati importati dal profilo visibile. Controlla le informazioni e premi «Prepara la mia pratica».</div>';});
+try{const saved=JSON.parse(localStorage.getItem('buropratika_motore31')||'null');if(saved?.items&&Array.isArray(saved.items)){current=saved;for(const id of ['activity','ateco','region','city','flow','sector'])if($('m31'+id))$('m31'+id).value=saved[id]||'';render();}}catch{}
+})();
+</script>
+
+<script type="module">
+// Chat AI BuroPratika: never place API keys in the browser. Only public Supabase key.
+(()=>{
+const e=id=>document.getElementById(id);
+let history=[],ctx={},busy=false;
+const say=(role,value)=>{const d=document.createElement('div');d.className='ai-msg '+role;d.textContent=value;e('aiThread').appendChild(d);e('aiThread').scrollTop=e('aiThread').scrollHeight;};
+const status=(s,err=false)=>{e('aiStatus').textContent=s;e('aiStatus').className='ai-small'+(err?' ai-error':'');};
+function config(){let x={};try{x=JSON.parse(localStorage.getItem('buropratika_public_config')||'{}')||{}}catch{}
+const c={url:'https://bqcaohfochwweymgfjtd.supabase.co',key:x.key||''};return c;}
+e('aiImport').onclick=()=>{
+ ctx={activity:(e('m31activity')?.value||e('firmName')?.value||'').slice(0,120),ateco:(e('m31ateco')?.value||e('firmAteco')?.value||'').slice(0,14),region:(e('m31region')?.value||e('firmRegion')?.value||'').slice(0,70),city:(e('m31city')?.value||e('firmCity')?.value||'').slice(0,70),flow:(e('m31flow')?.value||e('flowType')?.value||'').slice(0,80),sector:(e('m31sector')?.value||e('firmSector')?.value||'').slice(0,80)};
+ e('aiProfileText').textContent='Contesto pronto: '+[ctx.activity,ctx.ateco,ctx.city,ctx.region,ctx.flow].filter(Boolean).join(' · ');
+ status('Profilo importato: sarà inviato alla AI soltanto se autorizzi e premi Invia. P.IVA e documenti non vengono condivisi.');
+};
+e('aiClear').onclick=()=>{history=[];e('aiThread').replaceChildren();say('assistant','Nuova conversazione. Dimmi quale pratica vuoi preparare.');status('Cronologia rimossa dalla pagina; la funzione non archivia il testo della chat.');};
+e('aiSend').onclick=async()=>{
+ if(busy)return;const msg=e('aiMessage').value.trim();if(!msg)return;
+ if(!e('aiConsent').checked){status('Spunta prima il consenso all’elaborazione della chat.',true);return;}
+ const conf=config();if(!conf.key){status('Manca la chiave pubblica Supabase su questo dispositivo. Configurala nella sezione Collegamento database (solo sb_publishable_ o anon).',true);return;}
+ busy=true;e('aiSend').disabled=true;
+ try{
+   const {createClient}=await import('https://esm.sh/@supabase/supabase-js@2');
+   const sb=createClient(conf.url,conf.key,{auth:{persistSession:true,detectSessionInUrl:true}});
+   const {data:{session}}=await sb.auth.getSession();if(!session?.access_token)throw Error('Per parlare con la AI devi effettuare il login via email nella sezione Fascicolo Vivo.');
+   say('user',msg);e('aiMessage').value='';status('La AI sta preparando la risposta...');
+   const r=await fetch(conf.url+'/functions/v1/buropratika-ai',{method:'POST',headers:{'Content-Type':'application/json','apikey':conf.key,'Authorization':'Bearer '+session.access_token},body:JSON.stringify({message:msg,history:history.slice(-8),profile:ctx})});
+   let result;try{result=await r.json()}catch{throw Error('Risposta non valida dal server. Controlla la distribuzione della funzione.');}
+   if(!r.ok)throw Error(result.error||('Errore server '+r.status));
+   say('assistant',result.reply);history.push({role:'user',content:msg},{role:'assistant',content:result.reply});history=history.slice(-10);
+   status('Risposta generata da AI. Fonti e obblighi vanno sempre confrontati con i documenti ufficiali.');
+ }catch(err){say('assistant','Non sono riuscito a rispondere: '+err.message);status(err.message,true);}
+ finally{busy=false;e('aiSend').disabled=false;}
+};
+e('aiMessage').addEventListener('keydown',ev=>{if(ev.key==='Enter'&&(ev.ctrlKey||ev.metaKey)){ev.preventDefault();e('aiSend').click();}});
+})();
 </script>
 </body></html>
