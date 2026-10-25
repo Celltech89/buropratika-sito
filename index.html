@@ -219,8 +219,8 @@ html{scroll-behavior:smooth}.summary{scroll-margin-top:18px}.assist-btn{align-se
 </main><footer class="foot"><div class="shell"><strong>BuroPratika</strong> — Assistente sperimentale: affinità non equivale ad ammissibilità. Le date sono rilevate automaticamente dove disponibili e potrebbero essere errate o superate: nessuna scheda certifica un bando aperto, ammissibilità o importi. Fai sempre riferimento all'ente che pubblica l'avviso.</div></footer>
 <script>
 // CONFIGURAZIONE PUBBLICAZIONE: qui inserisci SOLO la chiave pubblica (non service_role).
-const PUBLIC_SUPABASE_URL = '';
-const PUBLIC_SUPABASE_KEY = '';
+const PUBLIC_SUPABASE_URL = 'https://bqcaohfochwweymgfjtd.supabase.co';
+const PUBLIC_SUPABASE_KEY = 'sb_publishable_Nu0zf9oX3mqN7q-f8kRv_A_HgWIEnh4';
 // La configurazione di prova è memorizzata localmente nel browser del titolare.
 const $ = id => document.getElementById(id);
 const state = {rows:[],filtered:[],visible:12,url:'',key:'',prefs:{region:'',cities:'',national:true}};
@@ -523,7 +523,7 @@ $('dossierPrint').addEventListener('click',()=>{if(!dossierCache)return;const w=
 /* BuroPratika 3.0. Public values only. Never paste service_role or Stripe secrets. */
 const CONFIG={
   url:'https://bqcaohfochwweymgfjtd.supabase.co',
-  publicKey:'', // configure only sb_publishable_... or anon public key
+  publicKey:'sb_publishable_Nu0zf9oX3mqN7q-f8kRv_A_HgWIEnh4', // public Supabase publishable key
   paymentsEnabled:false
 };
 const $=id=>document.getElementById(id);
