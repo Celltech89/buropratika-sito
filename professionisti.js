@@ -124,3 +124,269 @@
   byId('bpReload').addEventListener('click',reload);
   await reload();
 })();
+
+/* BUROPRATIKA 4.7 - REGISTRAZIONE PROFESSIONISTI */
+
+(async function () {
+  'use strict';
+
+  const section = document.getElementById('professionisti');
+  if (!section) return;
+
+  const box = document.createElement('div');
+  box.className = 'vivo-card';
+  box.style.marginTop = '20px';
+
+  box.innerHTML = `
+    <h2>Diventa professionista BuroPratika</h2>
+    <p>
+      Registrati e richiedi la verifica della tua
+      iscrizione professionale.
+      L'approvazione non è automatica.
+    </p>
+
+    <label for="bp47studio">Nome studio</label>
+    <input id="bp47studio" maxlength="150"
+      placeholder="Studio Rossi">
+
+    <label for="bp47nome">Nome</label>
+    <input id="bp47nome" maxlength="100"
+      placeholder="Mario">
+
+    <label for="bp47cognome">Cognome</label>
+    <input id="bp47cognome" maxlength="100"
+      placeholder="Rossi">
+
+    <label for="bp47professione">Professione</label>
+    <select id="bp47professione">
+      <option value="">Seleziona</option>
+      <option>Commercialista</option>
+      <option>Esperto contabile</option>
+      <option>Ingegnere</option>
+      <option>Architetto</option>
+      <option>Geometra</option>
+      <option>Consulente del lavoro</option>
+      <option>Avvocato</option>
+      <option>Altro professionista</option>
+    </select>
+
+    <label for="bp47ordine">Ordine o Collegio territoriale</label>
+    <input id="bp47ordine" maxlength="150"
+      placeholder="Es. ODCEC Ancona">
+
+    <label for="bp47numero">Numero di iscrizione all'albo</label>
+    <input id="bp47numero" maxlength="50"
+      placeholder="Numero iscrizione">
+
+    <label for="bp47provincia">Provincia dello studio</label>
+    <input id="bp47provincia" maxlength="100"
+      placeholder="Es. Ancona">
+
+    <label for="bp47fonte">Link all'albo ufficiale (facoltativo)</label>
+    <input id="bp47fonte" type="url"
+      placeholder="https://...">
+
+    <p>
+      <label>
+        <input type="checkbox" id="bp47consenso"
+          style="width:auto">
+        Dichiaro che i dati inseriti sono veritieri
+        e che richiedo la verifica professionale.
+      </label>
+    </p>
+
+    <button type="button" class="btn" id="bp47invia">
+      Invia domanda di verifica
+    </button>
+
+    <button type="button" class="btn outline" id="bp47stato">
+      Controlla la mia domanda
+    </button>
+
+    <div id="bp47risultato" role="status"
+      style="margin-top:15px;padding:12px;
+      background:#edf5f4;border-radius:10px">
+      Effettua prima l'accesso nel Fascicolo Vivo.
+    </div>
+
+    <p style="font-size:12px">
+      La domanda non certifica l'identità o l'iscrizione.
+      BuroPratika dovrà effettuare i controlli
+      sulle fonti ufficiali prima dell'abilitazione.
+    </p>
+  `;
+
+  section.appendChild(box);
+
+  const get = id => document.getElementById(id);
+  const val = id => get(id).value.trim();
+  const output = message => {
+    get('bp47risultato').textContent = message;
+  };
+
+  let client = null;
+
+  async function accesso() {
+    let config = {};
+
+    try {
+      config = JSON.parse(
+        localStorage.getItem('buropratika_public_config') || '{}'
+      );
+    } catch {}
+
+    const key = config?.key;
+
+    if (!key ||
+        !(key.startsWith('sb_publishable_') ||
+          key.startsWith('eyJ'))) {
+      throw Error('Configura prima la chiave pubblica Supabase.');
+    }
+
+    if (!client) {
+      const lib = await import(
+        'https://esm.sh/@supabase/supabase-js@2'
+      );
+
+      client = lib.createClient(
+        'https://bqcaohfochwweymgfjtd.supabase.co',
+        key,
+        {auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }}
+      );
+    }
+
+    const {data, error} = await client.auth.getUser();
+
+    if (error || !data?.user) {
+      throw Error('Accedi prima dal Fascicolo Vivo.');
+    }
+
+    return data.user;
+  }
+
+  async function query(q) {
+    const {data, error} = await q;
+    if (error) throw error;
+    return data;
+  }
+
+  get('bp47invia').addEventListener('click', async () => {
+    const button = get('bp47invia');
+    button.disabled = true;
+
+    try {
+      const user = await accesso();
+
+      const ids = [
+        'bp47studio',
+        'bp47nome',
+        'bp47cognome',
+        'bp47professione',
+        'bp47ordine',
+        'bp47numero',
+        'bp47provincia'
+      ];
+
+      if (ids.some(id => !val(id))) {
+        throw Error('Compila tutti i campi obbligatori.');
+      }
+
+      if (!get('bp47consenso').checked) {
+        throw Error('Conferma la dichiarazione di veridicità.');
+      }
+
+      const source = val('bp47fonte');
+
+      if (source && !/^https:\/\//i.test(source)) {
+        throw Error('Il link all’albo deve iniziare con https://');
+      }
+
+      const {data: existing, error: checkError} =
+        await client
+          .from('bp_domande_verifica')
+          .select('user_id')
+          .eq('user_id', user.id)
+          .maybeSingle();
+
+      if (checkError) throw checkError;
+
+      if (existing) {
+        output(
+          'Hai già presentato una domanda. ' +
+          'Non è possibile inviarne un’altra ' +
+          'da questo modulo.'
+        );
+        return;
+      }
+
+      await query(
+        client.from('bp_professionisti').upsert({
+          user_id: user.id,
+          nome_studio: val('bp47studio'),
+          professione: val('bp47professione'),
+          provincia: val('bp47provincia'),
+          descrizione: 'Profilo in attesa di verifica'
+        }, {onConflict: 'user_id'})
+      );
+
+      await query(
+        client.from('bp_domande_verifica').insert({
+          user_id: user.id,
+          nome: val('bp47nome'),
+          cognome: val('bp47cognome'),
+          professione: val('bp47professione'),
+          ordine_territoriale: val('bp47ordine'),
+          numero_iscrizione: val('bp47numero'),
+          fonte_albo: source || null,
+          dichiarazione_veridicita: true
+        })
+      );
+
+      output(
+        'Domanda inviata correttamente! ' +
+        'Stato: IN ATTESA DI VERIFICA. ' +
+        'Non sei ancora abilitato come professionista verificato.'
+      );
+
+    } catch (error) {
+      output('Errore: ' + error.message);
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  get('bp47stato').addEventListener('click', async () => {
+    try {
+      const user = await accesso();
+
+      const {data, error} = await client
+        .from('bp_domande_verifica')
+        .select('nome,cognome,professione,created_at')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (!data) {
+        output('Non risulta ancora presentata alcuna domanda.');
+        return;
+      }
+
+      output(
+        'Domanda ricevuta per ' +
+        data.nome + ' ' + data.cognome +
+        ' (' + data.professione + '). ' +
+        'Il controllo dell’albo e dell’identità ' +
+        'non è ancora attestato da questo modulo.'
+      );
+
+    } catch (error) {
+      output('Errore: ' + error.message);
+    }
+  });
+
+})();
