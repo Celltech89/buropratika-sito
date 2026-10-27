@@ -324,17 +324,17 @@
       }
 
       await query(
-        client.from('bp_professionisti').upsert({
+        client.from('bp_professionisti').insert({
           user_id: user.id,
           nome_studio: val('bp47studio'),
           professione: val('bp47professione'),
           provincia: val('bp47provincia'),
           descrizione: 'Profilo in attesa di verifica'
-        }, {onConflict: 'user_id'})
+        })
       );
 
       await query(
-        client.from('bp_domande_verifica').insert({
+        client.from('bp_domande_verifica')..insert({
           user_id: user.id,
           nome: val('bp47nome'),
           cognome: val('bp47cognome'),
