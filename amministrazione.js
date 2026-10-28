@@ -316,11 +316,45 @@
         risultato.setAttribute('role', 'status');
         card.appendChild(risultato);
 
-        const simula = (esito) => {
-          risultato.textContent =
-            'SIMULAZIONE: ' + esito +
-            '. Nessuna modifica salvata.';
-        };
+        
+const simula = async (esito) => {
+  if (!demo.id) {
+    risultato.textContent = 'ID demo mancante';
+    return;
+  }
+
+  if (!confirm('Confermi la decisione DEMO: ' + esito + '?')) {
+    return;
+  }
+
+  approvaDemo.disabled = true;
+  rifiutaDemo.disabled = true;
+  risultato.textContent = 'Salvataggio DEMO in corso...';
+
+  try {
+    const {data, error} = await client.rpc(
+      'bp_decidi_demo',
+      {
+        p_id: demo.id,
+        p_esito: esito
+      }
+    );
+
+    if (error) throw error;
+
+    stato.textContent = 'Stato database: ' + esito;
+    risultato.textContent =
+      data || 'Decisione DEMO salvata';
+
+  } catch (error) {
+    risultato.textContent =
+      'Errore DEMO: ' + error.message;
+  } finally {
+    approvaDemo.disabled = false;
+    rifiutaDemo.disabled = false;
+  }
+};
+
 
         const approvaDemo = document.createElement('button');
         approvaDemo.type = 'button';
