@@ -135,6 +135,112 @@
         'Da verificare: nessuna approvazione automatica'
       );
 
+      // Controlli amministrativi BuroPratika
+      const identita = document.createElement('input');
+      identita.type = 'checkbox';
+
+      const identitaLabel = document.createElement('label');
+      identitaLabel.append(identita, ' Identità verificata');
+      card.appendChild(identitaLabel);
+
+      card.appendChild(document.createElement('br'));
+
+      const iscrizione = document.createElement('input');
+      iscrizione.type = 'checkbox';
+
+      const iscrizioneLabel = document.createElement('label');
+      iscrizioneLabel.append(
+        iscrizione, ' Iscrizione all’albo verificata'
+      );
+      card.appendChild(iscrizioneLabel);
+
+      const fonte = document.createElement('input');
+      fonte.type = 'url';
+      fonte.placeholder = 'https://albo-ufficiale.it';
+      fonte.style.cssText =
+        'display:block;width:100%;padding:10px;margin:12px 0';
+      card.appendChild(fonte);
+
+      const dettaglio = document.createElement('textarea');
+      dettaglio.placeholder =
+        'Fonte consultata, esito del controllo e motivazione';
+      dettaglio.style.cssText =
+        'display:block;width:100%;min-height:90px;padding:10px';
+      card.appendChild(dettaglio);
+
+      const messaggio = document.createElement('p');
+      messaggio.setAttribute('role', 'status');
+      card.appendChild(messaggio);
+
+      const decidi = async (esito) => {
+        if (!item.user_id) {
+          messaggio.textContent = 'ID professionista mancante';
+          return;
+        }
+
+        if (!fonte.value.trim() || !dettaglio.value.trim()) {
+          messaggio.textContent =
+            'Inserisci fonte ufficiale e motivazione';
+          return;
+        }
+
+        if (!/^https:\/\//i.test(fonte.value.trim())) {
+          messaggio.textContent =
+            'La fonte deve essere un indirizzo HTTPS';
+          return;
+        }
+
+        if (esito === 'approvato' &&
+            (!identita.checked || !iscrizione.checked)) {
+          messaggio.textContent =
+            'Completa entrambi i controlli prima di approvare';
+          return;
+        }
+
+        if (!confirm('Confermi: ' + esito + '?')) return;
+
+        approva.disabled = true;
+        rifiuta.disabled = true;
+        messaggio.textContent = 'Registrazione in corso...';
+
+        try {
+          const {data: risultato, error: errore} =
+            await client.rpc('bp_decidi_verifica', {
+              p_user_id: item.user_id,
+              p_esito: esito,
+              p_identita: identita.checked,
+              p_iscrizione: iscrizione.checked,
+              p_fonte: fonte.value.trim(),
+              p_dettaglio: dettaglio.value.trim()
+            });
+
+          if (errore) throw errore;
+
+          messaggio.textContent =
+            risultato || 'Decisione registrata';
+          await reload();
+        } catch (errore) {
+          messaggio.textContent = 'Errore: ' + errore.message;
+        } finally {
+          approva.disabled = false;
+          rifiuta.disabled = false;
+        }
+      };
+
+      const approva = document.createElement('button');
+      approva.type = 'button';
+      approva.textContent = 'Approva';
+      approva.style.margin = '10px 8px 0 0';
+      approva.onclick = () => decidi('approvato');
+      card.appendChild(approva);
+
+      const rifiuta = document.createElement('button');
+      rifiuta.type = 'button';
+      rifiuta.textContent = 'Rifiuta';
+      rifiuta.onclick = () => decidi('rifiutato');
+      card.appendChild(rifiuta);
+
+
       list.appendChild(card);
     }
   }
