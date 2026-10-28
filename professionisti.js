@@ -334,7 +334,7 @@
       );
 
       await query(
-        client.from('bp_domande_verifica')..insert({
+        client.from('bp_domande_verifica').insert({
           user_id: user.id,
           nome: val('bp47nome'),
           cognome: val('bp47cognome'),
