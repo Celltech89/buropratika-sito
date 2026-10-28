@@ -263,6 +263,100 @@
       }
     });
 
+    // BuroPratika - Modalita DEMO isolata
+    const demoPanel = document.createElement('section');
+    demoPanel.id = 'bpDemoPanel';
+    demoPanel.style.cssText =
+      'margin-top:24px;padding:18px;' +
+      'border:2px dashed #39748a;border-radius:14px';
+
+    const demoTitle = document.createElement('h3');
+    demoTitle.textContent = 'MODALITA DEMO - Solo test';
+    demoPanel.appendChild(demoTitle);
+
+    const demoInfo = document.createElement('p');
+    demoInfo.textContent =
+      'Le decisioni simulate non modificano il database.';
+    demoPanel.appendChild(demoInfo);
+
+    const demoList = document.createElement('div');
+    demoPanel.appendChild(demoList);
+    panel.appendChild(demoPanel);
+
+    try {
+      const {data: demoData, error: demoError} =
+        await client
+          .from('bp_domande_demo')
+          .select('id,nome,cognome,professione,esito')
+          .limit(20);
+
+      if (demoError) throw demoError;
+
+      if (!demoData || !demoData.length) {
+        addText(demoList, 'p', 'Nessuna domanda demo.');
+      }
+
+      for (const demo of (demoData || [])) {
+        const card = document.createElement('article');
+        card.style.cssText =
+          'padding:14px;margin:12px 0;' +
+          'border:1px solid #ccc;border-radius:10px';
+
+        addText(card, 'h4',
+          demo.nome + ' ' + demo.cognome
+        );
+
+        addText(card, 'p', demo.professione);
+
+        const stato = document.createElement('p');
+        stato.textContent = 'Stato database: ' + demo.esito;
+        card.appendChild(stato);
+
+        const risultato = document.createElement('p');
+        risultato.setAttribute('role', 'status');
+        card.appendChild(risultato);
+
+        const simula = (esito) => {
+          risultato.textContent =
+            'SIMULAZIONE: ' + esito +
+            '. Nessuna modifica salvata.';
+        };
+
+        const approvaDemo = document.createElement('button');
+        approvaDemo.type = 'button';
+        approvaDemo.textContent = 'Approva (DEMO)';
+        approvaDemo.onclick = () => simula('approvato');
+
+        const rifiutaDemo = document.createElement('button');
+        rifiutaDemo.type = 'button';
+        rifiutaDemo.textContent = 'Rifiuta (DEMO)';
+        rifiutaDemo.onclick = () => simula('rifiutato');
+
+        const resetDemo = document.createElement('button');
+        resetDemo.type = 'button';
+        resetDemo.textContent = 'Azzera simulazione';
+        resetDemo.onclick = () => {
+          risultato.textContent = '';
+        };
+
+        for (const b of [
+          approvaDemo, rifiutaDemo, resetDemo
+        ]) {
+          b.style.cssText = 'margin:6px;padding:9px';
+          card.appendChild(b);
+        }
+
+        demoList.appendChild(card);
+      }
+    } catch (demoError) {
+      addText(
+        demoList,
+        'p',
+        'Errore DEMO: ' + demoError.message
+      );
+    }
+
+
     await reload();
   } catch (error) {
     if (!panel.hidden) {
