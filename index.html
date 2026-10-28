@@ -885,7 +885,9 @@ get('proPrepare').addEventListener('click',()=>{
  get('proDownload').disabled=false;
 });
 get('proDownload').addEventListener('click',()=>{
- if(!request)return;
+ 
+<script src="https://raw.githack.com/Celltech89/buropratika-sito/buropratika-4-test/amministrazione.js?v=demo8" defer></script>
+
  const blob=new Blob([JSON.stringify(request,null,2)],{type:'application/json;charset=utf-8'});
  const u=URL.createObjectURL(blob),a=document.createElement('a');
  a.href=u;a.download='BuroPratika-richiesta-DEMO.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),2000);
