@@ -211,6 +211,61 @@ dashboard.style.cssText =
 
 lista.appendChild(dashboard);
 
+const boxScadenze = document.createElement('div');
+boxScadenze.style.cssText =
+  'padding:16px;margin:12px 0;' +
+  'border:1px solid #d9e5e8;border-radius:12px;' +
+  'background:#f7fafb;';
+
+const titoloScadenze = document.createElement('strong');
+titoloScadenze.textContent = 'Scadenze delle pratiche';
+boxScadenze.appendChild(titoloScadenze);
+
+const idsPratiche = data.map(p => p.id);
+
+if (idsPratiche.length) {
+  const { data: scadenze, error: erroreScadenze } = await sb
+    .from('bp_scadenze_demo_v1')
+    .select('fascicolo_id,data_scadenza')
+    .in('fascicolo_id', idsPratiche);
+
+  if (erroreScadenze) {
+    boxScadenze.appendChild(
+      document.createTextNode(' — Dati non disponibili')
+    );
+  } else {
+    const oggi = new Date();
+    oggi.setHours(0, 0, 0, 0);
+
+    const limite = new Date(oggi);
+    limite.setDate(limite.getDate() + 7);
+
+    let scadute = 0;
+    let imminenti = 0;
+
+    (scadenze || []).forEach(s => {
+      if (!s.data_scadenza) return;
+
+      const giorno = new Date(s.data_scadenza + 'T00:00:00');
+
+      if (giorno < oggi) scadute++;
+      else if (giorno <= limite) imminenti++;
+    });
+
+    const riepilogo = document.createElement('p');
+    riepilogo.textContent =
+      'Scadute: ' + scadute +
+      ' | Entro 7 giorni: ' + imminenti;
+    boxScadenze.appendChild(riepilogo);
+  }
+} else {
+  boxScadenze.appendChild(
+    document.createTextNode(' — Nessuna pratica presente')
+  );
+}
+
+lista.appendChild(boxScadenze);
+
       if (!data.length) {
         addText(
           lista,
