@@ -724,10 +724,38 @@ esporta.onclick = async () => {
 
   const doc = finestra.document;
   doc.title = 'BuroPratika - ' + item.codice;
-  doc.body.style.cssText =
-    'font:16px Arial,sans-serif;line-height:1.6;' +
-    'max-width:760px;margin:30px auto;padding:20px;' +
-    'color:#183039;';
+  
+doc.body.style.cssText =
+  'font-family:Arial,sans-serif;' +
+  'line-height:1.6;max-width:800px;' +
+  'margin:35px auto;padding:28px;' +
+  'color:#17333c;background:#fff;';
+
+const stilePDF = doc.createElement('style');
+stilePDF.textContent = `
+  h1 {
+    color:#176577;
+    font-size:32px;
+    border-bottom:3px solid #176577;
+    padding-bottom:14px;
+  }
+  h2 {
+    color:#176577;
+    margin-top:30px;
+    border-bottom:1px solid #d9e5e8;
+    padding-bottom:7px;
+  }
+  h3 { font-size:17px; }
+  p { margin:9px 0; }
+  a { color:#176577; }
+  @media print {
+    body { margin:0 !important; }
+    button { display:none !important; }
+    h2, h3 { break-after:avoid; }
+  }
+`;
+doc.head.appendChild(stilePDF);
+
 
   const aggiungi = (tag, testo) => {
     const el = doc.createElement(tag);
