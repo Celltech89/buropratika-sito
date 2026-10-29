@@ -663,6 +663,65 @@ const locali = creaScelta(
   risposte?.situazione_locali || 'da_verificare'
 );
 
+const isNegozio =
+  descrizioneAttivita.includes('abbigliamento') ||
+  descrizioneAttivita.includes('negozio');
+
+const isLaboratorio =
+  descrizioneAttivita.includes('laboratorio artigianale');
+
+let superficieVendita = null;
+let accessoPubblico = null;
+let tipoLavorazione = null;
+let emissioniScarichi = null;
+
+if (isNegozio) {
+  superficieVendita = creaScelta(
+    'Superficie di vendita',
+    [
+      ['da_verificare', 'Da verificare'],
+      ['fino_150', 'Fino a 150 m²'],
+      ['151_250', 'Da 151 a 250 m²'],
+      ['oltre_250', 'Oltre 250 m²']
+    ],
+    risposte?.superficie_vendita || 'da_verificare'
+  );
+
+  accessoPubblico = creaScelta(
+    'Accesso del pubblico',
+    [
+      ['da_verificare', 'Da verificare'],
+      ['si', 'Sì'],
+      ['no', 'No']
+    ],
+    risposte?.accesso_pubblico || 'da_verificare'
+  );
+}
+
+if (isLaboratorio) {
+  tipoLavorazione = creaScelta(
+    'Tipo di lavorazione',
+    [
+      ['da_verificare', 'Da verificare'],
+      ['legno', 'Lavorazione legno'],
+      ['metalli', 'Lavorazione metalli'],
+      ['tessile', 'Lavorazione tessile'],
+      ['altro', 'Altra lavorazione']
+    ],
+    risposte?.tipo_lavorazione || 'da_verificare'
+  );
+
+  emissioniScarichi = creaScelta(
+    'Emissioni o scarichi da verificare',
+    [
+      ['da_verificare', 'Da verificare'],
+      ['si', 'Sì'],
+      ['no', 'No']
+    ],
+    risposte?.emissioni_scarichi || 'da_verificare'
+  );
+}
+
 const salvaRisposte = document.createElement('button');
 salvaRisposte.type = 'button';
 salvaRisposte.textContent = 'Salva risposte';
