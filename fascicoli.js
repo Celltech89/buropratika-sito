@@ -228,6 +228,19 @@ const listaControlli = document.createElement('div');
 
 addText(listaControlli, 'h4', 'Checklist preliminare');
 
+const { data: spunte, error: erroreSpunte } = await sb
+  .from('bp_checklist_demo_v1')
+  .select('voce,completata')
+  .eq('fascicolo_id', item.id);
+
+if (erroreSpunte) throw erroreSpunte;
+
+const completate = new Set(
+  (spunte || [])
+    .filter(s => s.completata)
+    .map(s => s.voce)
+);
+
 for (const voce of checklist[item.tipo_pratica] || []) {
   const riga = document.createElement('label');
   riga.style.cssText =
@@ -235,6 +248,35 @@ for (const voce of checklist[item.tipo_pratica] || []) {
 
   const casella = document.createElement('input');
   casella.type = 'checkbox';
+
+casella.checked = completate.has(voce);
+
+casella.addEventListener('change', async () => {
+  casella.disabled = true;
+  const nuovaSpunta = casella.checked;
+
+  try {
+    const { error } = await sb
+      .from('bp_checklist_demo_v1')
+      .upsert({
+        fascicolo_id: item.id,
+        user_id: userId,
+        voce: voce,
+        completata: nuovaSpunta,
+        aggiornato_il: new Date().toISOString()
+      }, {
+        onConflict: 'fascicolo_id,voce'
+      });
+
+    if (error) throw error;
+    setStatus('Checklist salvata');
+  } catch (error) {
+    casella.checked = !nuovaSpunta;
+    setStatus('Errore checklist: ' + error.message);
+  } finally {
+    casella.disabled = false;
+  }
+});
 
   riga.appendChild(casella);
   riga.appendChild(
