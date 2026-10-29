@@ -351,6 +351,83 @@ salvaStato.addEventListener('click', async () => {
 card.appendChild(selettore);
 card.appendChild(salvaStato);
 
+const boxAdempimenti = document.createElement('div');
+boxAdempimenti.style.cssText =
+  'margin-top:18px;padding:12px;' +
+  'border:1px solid #ccd9dd;border-radius:10px';
+
+addText(
+  boxAdempimenti,
+  'h4',
+  'Adempimenti amministrativi'
+);
+
+const descrizione = String(
+  item.descrizione || ''
+).toLowerCase();
+
+const settore = descrizione.includes('gelateria')
+  ? 'gelateria'
+  : null;
+
+if (!settore) {
+  addText(
+    boxAdempimenti,
+    'p',
+    'Settore non ancora classificato. ' +
+    'Occorre verificare gli adempimenti applicabili.'
+  );
+} else {
+  const { data: regole, error: erroreRegole } =
+    await sb.rpc('bp_cerca_adempimenti', {
+      p_regione: 'Marche',
+      p_settore: settore,
+      p_operazione: item.tipo_pratica
+    });
+
+  if (erroreRegole) {
+    addText(
+      boxAdempimenti,
+      'p',
+      'Ricerca non disponibile: ' + erroreRegole.message
+    );
+  } else if (!regole || regole.length === 0) {
+    addText(
+      boxAdempimenti,
+      'p',
+      'Nessuna regola verificata disponibile. ' +
+      'La ricerca non è completa: ' +
+      'sono necessarie ulteriori verifiche.'
+    );
+  } else {
+    for (const regola of regole) {
+      const voce = document.createElement('div');
+      addText(voce, 'strong', regola.titolo);
+
+      addText(
+        voce,
+        'p',
+        'Ente: ' + (regola.ente_competente || 'Da verificare')
+      );
+
+      const link = document.createElement('a');
+      const url = regola.fonte_ufficiale;
+
+      if (url && /^https:\/\//i.test(url)) {
+        link.href = url;
+        link.textContent = 'Consulta la fonte ufficiale';
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        voce.appendChild(link);
+      }
+
+      boxAdempimenti.appendChild(voce);
+    }
+  }
+}
+
+card.appendChild(boxAdempimenti);
+
         lista.appendChild(card);
       }
 
