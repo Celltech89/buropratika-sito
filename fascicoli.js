@@ -206,12 +206,18 @@
         );
 
 const checklist = {
-  apertura: [
-    'Verificare requisiti e autorizzazioni',
-    'Individuare il SUAP competente',
-    'Verificare gli adempimenti al Registro Imprese',
-    'Controllare eventuali obblighi fiscali e previdenziali'
-  ],
+  
+apertura: [
+  'Verificare la destinazione d’uso e i requisiti dei locali',
+  'Definire se la gelateria è laboratorio artigianale, vendita o somministrazione',
+  'Verificare il procedimento applicabile presso il SUAP di Ancona',
+  'Predisporre e presentare la notifica sanitaria quando richiesta',
+  'Verificare gli adempimenti al Registro Imprese',
+  'Verificare partita IVA e posizioni INPS e INAIL applicabili',
+  'Predisporre autocontrollo HACCP e gestione degli allergeni',
+  'Verificare eventuali autorizzazioni aggiuntive'
+],
+
   cessazione: [
     'Verificare la procedura di cessazione',
     'Controllare gli adempimenti al Registro Imprese',
