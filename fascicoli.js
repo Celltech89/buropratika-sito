@@ -170,6 +170,47 @@
 
       lista.replaceChildren();
 
+const pratiche = data || [];
+const totale = pratiche.length;
+const inLavorazione = pratiche.filter(
+  p => p.stato === 'in_lavorazione'
+).length;
+const completate = pratiche.filter(
+  p => p.stato === 'completata'
+).length;
+
+const dashboard = document.createElement('div');
+dashboard.style.cssText =
+  'display:grid;grid-template-columns:repeat(2,minmax(0,1fr));' +
+  'gap:12px;margin:20px 0;';
+
+[
+  ['Pratiche totali', totale],
+  ['In lavorazione', inLavorazione],
+  ['Completate', completate],
+  ['Da gestire', totale - completate]
+].forEach(([titolo, numero]) => {
+  const scheda = document.createElement('div');
+  scheda.style.cssText =
+    'padding:16px;border:1px solid #d9e5e8;' +
+    'border-radius:12px;background:#f7fafb;';
+
+  const etichetta = document.createElement('div');
+  etichetta.textContent = titolo;
+  etichetta.style.cssText =
+    'font-size:13px;color:#526970;';
+
+  const valore = document.createElement('strong');
+  valore.textContent = String(numero);
+  valore.style.cssText =
+    'display:block;font-size:28px;color:#176577;';
+
+  scheda.append(etichetta, valore);
+  dashboard.appendChild(scheda);
+});
+
+lista.appendChild(dashboard);
+
       if (!data.length) {
         addText(
           lista,
