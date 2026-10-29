@@ -582,6 +582,13 @@ titoloScadenza.maxLength = 200;
 const dataScadenza = document.createElement('input');
 dataScadenza.type = 'date';
 
+dataScadenza.style.cssText =
+  'display:block;width:100%;min-height:48px;' +
+  'padding:10px;border:1px solid #ccd9dd;' +
+  'border-radius:8px;background:white;' +
+  'color:#183039;font-size:16px;' +
+  'box-sizing:border-box;';
+
 const salvaScadenza = document.createElement('button');
 salvaScadenza.type = 'button';
 salvaScadenza.textContent = 'Aggiungi scadenza';
