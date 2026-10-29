@@ -675,7 +675,12 @@ salvaRisposte.onclick = async () => {
       .upsert({
         fascicolo_id: item.id,
         user_id: userId,
-        tipo_attivita: 'gelateria',
+        tipo_attivita: descrizioneAttivita.includes('abbigliamento') ||
+  descrizioneAttivita.includes('negozio')
+    ? 'commercio'
+    : descrizioneAttivita.includes('laboratorio artigianale')
+      ? 'artigianato'
+      : 'gelateria',
         modello_attivita: modello.value,
         somministrazione: somministrazione.value,
         situazione_locali: locali.value,
