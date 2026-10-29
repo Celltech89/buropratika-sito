@@ -568,6 +568,101 @@ if (erroreValutazione) {
 
 card.appendChild(valutazioneBox);
 
+const scadenzeBox = document.createElement('div');
+scadenzeBox.style.cssText =
+  'padding:14px;margin-top:18px;' +
+  'border:1px solid #ccd9dd;border-radius:10px';
+
+addText(scadenzeBox, 'h4', 'Scadenze della pratica');
+
+const titoloScadenza = document.createElement('input');
+titoloScadenza.placeholder = 'Descrizione scadenza';
+titoloScadenza.maxLength = 200;
+
+const dataScadenza = document.createElement('input');
+dataScadenza.type = 'date';
+
+const salvaScadenza = document.createElement('button');
+salvaScadenza.type = 'button';
+salvaScadenza.textContent = 'Aggiungi scadenza';
+
+const elencoScadenze = document.createElement('div');
+
+const mostraScadenze = async () => {
+  elencoScadenze.replaceChildren();
+
+  const { data, error } = await sb
+    .from('bp_scadenze_demo_v1')
+    .select('titolo,data_scadenza,completata')
+    .eq('fascicolo_id', item.id)
+    .order('data_scadenza', { ascending: true });
+
+  if (error) {
+    addText(elencoScadenze, 'p', 'Errore: ' + error.message);
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    addText(elencoScadenze, 'p', 'Nessuna scadenza inserita');
+  }
+
+  for (const scadenza of data || []) {
+    addText(
+      elencoScadenze,
+      'p',
+      (scadenza.completata ? 'Completata - ' : '') +
+      scadenza.titolo + ' - ' +
+      (scadenza.data_scadenza || 'Senza data')
+    );
+  }
+};
+
+salvaScadenza.onclick = async () => {
+  const titolo = titoloScadenza.value.trim();
+
+  if (!titolo) {
+    setStatus('Inserisci una descrizione');
+    return;
+  }
+
+  salvaScadenza.disabled = true;
+
+  try {
+    const { error } = await sb
+      .from('bp_scadenze_demo_v1')
+      .insert({
+        fascicolo_id: item.id,
+        user_id: userId,
+        titolo: titolo,
+        data_scadenza: dataScadenza.value || null
+      });
+
+    if (error) throw error;
+
+    titoloScadenza.value = '';
+    dataScadenza.value = '';
+    setStatus('Scadenza salvata');
+    await mostraScadenze();
+  } catch (error) {
+    setStatus('Errore scadenza: ' + error.message);
+  } finally {
+    salvaScadenza.disabled = false;
+  }
+};
+
+for (const elemento of [
+  titoloScadenza,
+  dataScadenza,
+  salvaScadenza,
+  elencoScadenze
+]) {
+  elemento.style.margin = '8px 0';
+  scadenzeBox.appendChild(elemento);
+}
+
+card.appendChild(scadenzeBox);
+await mostraScadenze();
+
         lista.appendChild(card);
       }
 
