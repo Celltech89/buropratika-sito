@@ -326,6 +326,40 @@ apertura: [
   ]
 };
 
+const descrizioneAttivita =
+  String(item.descrizione || '').toLowerCase();
+
+if (
+  descrizioneAttivita.includes('abbigliamento') ||
+  descrizioneAttivita.includes('negozio')
+) {
+  checklist.apertura = [
+    'Verificare destinazione d’uso e agibilità dei locali',
+    'Verificare i requisiti per il commercio al dettaglio',
+    'Individuare la procedura SUAP applicabile ad Ancona',
+    'Verificare se occorre una SCIA commerciale',
+    'Verificare iscrizione al Registro Imprese',
+    'Verificare partita IVA e posizioni previdenziali',
+    'Controllare sicurezza dei locali e accessibilità',
+    'Verificare insegne ed eventuali autorizzazioni aggiuntive'
+  ];
+}
+
+if (
+  descrizioneAttivita.includes('laboratorio artigianale')
+) {
+  checklist.apertura = [
+    'Verificare destinazione d’uso e compatibilità dei locali',
+    'Identificare la lavorazione artigianale specifica',
+    'Verificare procedimento applicabile presso il SUAP',
+    'Verificare iscrizione all’Albo imprese artigiane',
+    'Verificare partita IVA e posizioni INPS e INAIL',
+    'Valutare obblighi di sicurezza sul lavoro',
+    'Verificare eventuali emissioni, scarichi e rifiuti',
+    'Verificare eventuali autorizzazioni ambientali'
+  ];
+}
+
 const listaControlli = document.createElement('div');
 
 addText(listaControlli, 'h4', 'Checklist preliminare');
