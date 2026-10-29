@@ -294,6 +294,46 @@ casella.addEventListener('change', async () => {
 
 card.appendChild(listaControlli);
 
+const totaleControlli =
+  (checklist[item.tipo_pratica] || []).length;
+
+const controlliCompletati =
+  (checklist[item.tipo_pratica] || [])
+    .filter(voce => completate.has(voce)).length;
+
+const avanzamento = totaleControlli
+  ? Math.round(controlliCompletati / totaleControlli * 100)
+  : 0;
+
+const boxAvanzamento = document.createElement('div');
+boxAvanzamento.style.cssText =
+  'margin:18px 0;padding:14px;' +
+  'border:1px solid #ccd9dd;border-radius:10px';
+
+addText(
+  boxAvanzamento,
+  'h4',
+  'Avanzamento checklist: ' + avanzamento + '%'
+);
+
+const barra = document.createElement('progress');
+barra.max = 100;
+barra.value = avanzamento;
+barra.style.cssText =
+  'width:100%;height:18px;accent-color:#176577;';
+
+boxAvanzamento.appendChild(barra);
+
+addText(
+  boxAvanzamento,
+  'p',
+  controlliCompletati + ' controlli completati su ' +
+  totaleControlli +
+  '. Indicatore operativo, non certificazione normativa.'
+);
+
+card.appendChild(boxAvanzamento);
+
 const selettore = document.createElement('select');
 
 const stati = {
