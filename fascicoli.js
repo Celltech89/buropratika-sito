@@ -524,6 +524,50 @@ salvaRisposte.onclick = async () => {
 questionario.appendChild(salvaRisposte);
 card.appendChild(questionario);
 
+const valutazioneBox = document.createElement('div');
+valutazioneBox.style.cssText =
+  'margin-top:18px;padding:14px;' +
+  'border:1px solid #ccd9dd;border-radius:10px';
+
+addText(
+  valutazioneBox,
+  'h4',
+  'Valutazione autorizzazioni'
+);
+
+const { data: valutazioni, error: erroreValutazione } =
+  await sb.rpc('bp_valuta_adempimenti_v1', {
+    p_fascicolo_id: item.id
+  });
+
+if (erroreValutazione) {
+  addText(
+    valutazioneBox,
+    'p',
+    'Errore valutazione: ' + erroreValutazione.message
+  );
+} else if (!valutazioni || valutazioni.length === 0) {
+  addText(
+    valutazioneBox,
+    'p',
+    'Nessuna valutazione disponibile. ' +
+    'Verificare questionario, settore e regole.'
+  );
+} else {
+  for (const v of valutazioni) {
+    const dettaglio = document.createElement('div');
+    dettaglio.style.marginBottom = '16px';
+
+    addText(dettaglio, 'strong', v.titolo);
+    addText(dettaglio, 'p', 'Esito: ' + v.esito);
+    addText(dettaglio, 'p', v.motivazione);
+
+    valutazioneBox.appendChild(dettaglio);
+  }
+}
+
+card.appendChild(valutazioneBox);
+
         lista.appendChild(card);
       }
 
