@@ -205,6 +205,63 @@
           'Stato: ' + item.stato
         );
 
+const selettore = document.createElement('select');
+
+const stati = {
+  bozza: 'Bozza',
+  da_completare: 'Da completare',
+  in_lavorazione: 'In lavorazione',
+  completata: 'Completata'
+};
+
+for (const [valore, etichetta] of Object.entries(stati)) {
+  const opzione = document.createElement('option');
+  opzione.value = valore;
+  opzione.textContent = etichetta;
+  selettore.appendChild(opzione);
+}
+
+selettore.value = item.stato;
+selettore.setAttribute('aria-label', 'Stato della pratica');
+selettore.style.cssText =
+  'padding:10px;margin:10px 0;width:100%;';
+
+const salvaStato = document.createElement('button');
+salvaStato.type = 'button';
+salvaStato.textContent = 'Aggiorna stato';
+
+salvaStato.addEventListener('click', async () => {
+  salvaStato.disabled = true;
+  setStatus('Aggiornamento in corso...');
+
+  try {
+    const { data: aggiornato, error } = await sb
+      .from('bp_fascicoli_demo_v1')
+      .update({
+        stato: selettore.value,
+        aggiornato_il: new Date().toISOString()
+      })
+      .eq('id', item.id)
+      .eq('user_id', userId)
+      .select('id')
+      .single();
+
+    if (error) throw error;
+    if (!aggiornato) {
+      throw new Error('Aggiornamento non autorizzato.');
+    }
+
+    await reload();
+  } catch (error) {
+    setStatus('Errore: ' + error.message);
+  } finally {
+    salvaStato.disabled = false;
+  }
+});
+
+card.appendChild(selettore);
+card.appendChild(salvaStato);
+
         lista.appendChild(card);
       }
 
