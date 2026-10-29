@@ -205,6 +205,47 @@
           'Stato: ' + item.stato
         );
 
+const checklist = {
+  apertura: [
+    'Verificare requisiti e autorizzazioni',
+    'Individuare il SUAP competente',
+    'Verificare gli adempimenti al Registro Imprese',
+    'Controllare eventuali obblighi fiscali e previdenziali'
+  ],
+  cessazione: [
+    'Verificare la procedura di cessazione',
+    'Controllare gli adempimenti al Registro Imprese',
+    'Verificare la chiusura delle posizioni fiscali e previdenziali'
+  ],
+  subingresso: [
+    'Verificare titolo e requisiti del subentrante',
+    'Controllare gli adempimenti SUAP',
+    'Verificare le comunicazioni al Registro Imprese'
+  ]
+};
+
+const listaControlli = document.createElement('div');
+
+addText(listaControlli, 'h4', 'Checklist preliminare');
+
+for (const voce of checklist[item.tipo_pratica] || []) {
+  const riga = document.createElement('label');
+  riga.style.cssText =
+    'display:block;margin:10px 0';
+
+  const casella = document.createElement('input');
+  casella.type = 'checkbox';
+
+  riga.appendChild(casella);
+  riga.appendChild(
+    document.createTextNode(' ' + voce)
+  );
+
+  listaControlli.appendChild(riga);
+}
+
+card.appendChild(listaControlli);
+
 const selettore = document.createElement('select');
 
 const stati = {
