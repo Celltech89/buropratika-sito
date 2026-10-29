@@ -428,6 +428,102 @@ if (!settore) {
 
 card.appendChild(boxAdempimenti);
 
+const questionario = document.createElement('div');
+questionario.style.cssText =
+  'padding:14px;margin-top:18px;' +
+  'border:1px solid #ccd9dd;border-radius:10px';
+
+addText(questionario, 'h4', 'Questionario autorizzazioni');
+
+const creaScelta = (titolo, opzioni, valore) => {
+  addText(questionario, 'p', titolo);
+  const select = document.createElement('select');
+
+  for (const [codice, etichetta] of opzioni) {
+    const option = document.createElement('option');
+    option.value = codice;
+    option.textContent = etichetta;
+    select.appendChild(option);
+  }
+
+  select.value = valore;
+  select.style.cssText =
+    'width:100%;padding:10px;margin-bottom:12px';
+  questionario.appendChild(select);
+  return select;
+};
+
+const { data: risposte, error: erroreLettura } =
+  await sb.from('bp_questionari_demo_v1')
+    .select('*')
+    .eq('fascicolo_id', item.id)
+    .maybeSingle();
+
+if (erroreLettura) throw erroreLettura;
+
+const modello = creaScelta(
+  'Modello attività',
+  [
+    ['da_verificare', 'Da definire'],
+    ['produzione', 'Produzione e vendita'],
+    ['rivendita', 'Solo rivendita'],
+    ['laboratorio', 'Solo laboratorio']
+  ],
+  risposte?.modello_attivita || 'da_verificare'
+);
+
+const somministrazione = creaScelta(
+  'Somministrazione al pubblico',
+  [
+    ['da_verificare', 'Da verificare'],
+    ['si', 'Sì'],
+    ['no', 'No']
+  ],
+  risposte?.somministrazione || 'da_verificare'
+);
+
+const locali = creaScelta(
+  'Situazione dei locali',
+  [
+    ['da_verificare', 'Da verificare'],
+    ['esistenti', 'Locale già destinato all’attività'],
+    ['lavori', 'Lavori o cambio destinazione d’uso'],
+    ['non_scelto', 'Locale non ancora individuato']
+  ],
+  risposte?.situazione_locali || 'da_verificare'
+);
+
+const salvaRisposte = document.createElement('button');
+salvaRisposte.type = 'button';
+salvaRisposte.textContent = 'Salva risposte';
+
+salvaRisposte.onclick = async () => {
+  salvaRisposte.disabled = true;
+  try {
+    const { error } = await sb
+      .from('bp_questionari_demo_v1')
+      .upsert({
+        fascicolo_id: item.id,
+        user_id: userId,
+        tipo_attivita: 'gelateria',
+        modello_attivita: modello.value,
+        somministrazione: somministrazione.value,
+        situazione_locali: locali.value,
+        aggiornato_il: new Date().toISOString()
+      }, { onConflict: 'fascicolo_id' });
+
+    if (error) throw error;
+    setStatus('Questionario salvato correttamente');
+  } catch (error) {
+    setStatus('Errore questionario: ' + error.message);
+  } finally {
+    salvaRisposte.disabled = false;
+  }
+};
+
+questionario.appendChild(salvaRisposte);
+card.appendChild(questionario);
+
         lista.appendChild(card);
       }
 
