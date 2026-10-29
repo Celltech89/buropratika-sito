@@ -743,6 +743,12 @@ salvaRisposte.onclick = async () => {
         modello_attivita: modello.value,
         somministrazione: somministrazione.value,
         situazione_locali: locali.value,
+         
+superficie_vendita: superficieVendita?.value ?? null,
+accesso_pubblico: accessoPubblico?.value ?? null,
+tipo_lavorazione: tipoLavorazione?.value ?? null,
+emissioni_scarichi: emissioniScarichi?.value ?? null,
+
         aggiornato_il: new Date().toISOString()
       }, { onConflict: 'fascicolo_id' });
 
