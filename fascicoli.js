@@ -670,6 +670,104 @@ for (const elemento of [
 card.appendChild(scadenzeBox);
 await mostraScadenze();
 
+const esporta = document.createElement('button');
+esporta.type = 'button';
+esporta.textContent = 'Esporta fascicolo PDF';
+
+esporta.onclick = async () => {
+  const finestra = window.open('', '_blank');
+
+  if (!finestra) {
+    setStatus('Consenti le finestre popup per esportare.');
+    return;
+  }
+
+  const doc = finestra.document;
+  doc.title = 'BuroPratika - ' + item.codice;
+  doc.body.style.cssText =
+    'font:16px Arial,sans-serif;line-height:1.6;' +
+    'max-width:760px;margin:30px auto;padding:20px;' +
+    'color:#183039;';
+
+  const aggiungi = (tag, testo) => {
+    const el = doc.createElement(tag);
+    el.textContent = String(testo ?? '');
+    doc.body.appendChild(el);
+    return el;
+  };
+
+  aggiungi('h1', 'BuroPratika');
+  aggiungi('h2', 'Dossier pratica - DEMO');
+  aggiungi('p', 'Codice: ' + item.codice);
+  aggiungi('p', 'Operazione: ' + item.tipo_pratica);
+  aggiungi('p', 'Comune: ' + (item.comune || 'Non indicato'));
+  aggiungi('p', 'Descrizione: ' + (item.descrizione || ''));
+  aggiungi('p', 'Stato: ' + item.stato);
+
+  aggiungi('h2', 'Questionario');
+  aggiungi('p', 'Modello: ' + (risposte?.modello_attivita || 'Da verificare'));
+  aggiungi('p', 'Somministrazione: ' + (risposte?.somministrazione || 'Da verificare'));
+  aggiungi('p', 'Locali: ' + (risposte?.situazione_locali || 'Da verificare'));
+
+  aggiungi('h2', 'Checklist');
+  for (const voce of checklist[item.tipo_pratica] || []) {
+    aggiungi('p', (completate.has(voce) ? '[X] ' : '[ ] ') + voce);
+  }
+
+  aggiungi('h2', 'Valutazione autorizzazioni');
+  for (const v of valutazioni || []) {
+    aggiungi('h3', v.titolo);
+    aggiungi('p', 'Esito: ' + v.esito);
+    aggiungi('p', v.motivazione);
+
+    if (v.fonte_ufficiale &&
+        /^https:\/\//i.test(v.fonte_ufficiale)) {
+      const a = doc.createElement('a');
+      a.href = v.fonte_ufficiale;
+      a.textContent = 'Fonte ufficiale';
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      doc.body.appendChild(a);
+    }
+  }
+
+  aggiungi('h2', 'Scadenze');
+
+  const { data: scadenze, error } = await sb
+    .from('bp_scadenze_demo_v1')
+    .select('titolo,data_scadenza,completata')
+    .eq('fascicolo_id', item.id);
+
+  if (error) {
+    aggiungi('p', 'Scadenze non disponibili: ' + error.message);
+  } else {
+    for (const s of scadenze || []) {
+      aggiungi(
+        'p',
+        s.titolo + ' - ' + (s.data_scadenza || 'Senza data')
+      );
+    }
+  }
+
+  aggiungi('h2', 'Avvertenza');
+  aggiungi(
+    'p',
+    'DOCUMENTO DIMOSTRATIVO - NON VALIDO COME ' +
+    'PRATICA AMMINISTRATIVA. Gli adempimenti ' +
+    'devono essere verificati presso gli enti competenti.'
+  );
+
+  const stampa = doc.createElement('button');
+  stampa.textContent = 'Stampa / Salva PDF';
+  stampa.style.cssText =
+    'padding:12px;background:#176577;color:white;' +
+    'border:0;border-radius:8px;margin:20px 0;';
+  stampa.onclick = () => finestra.print();
+  doc.body.appendChild(stampa);
+};
+
+card.appendChild(esporta);
+
         lista.appendChild(card);
       }
 
