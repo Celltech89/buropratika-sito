@@ -233,7 +233,7 @@ if (atecoRicerca && atecoSelect && atecoDescrizione) {
       const { data, error } = await sb
         .from('bp_fascicoli_demo_v1')
         .select(
-          'id,codice,tipo_pratica,comune,descrizione,stato,creato_il'
+          'id,codice,tipo_pratica,comune,descrizione,stato,creato_il,codice_ateco,denominazione_attivita'
         )
         .eq('user_id', userId)
         .order('creato_il', { ascending: false })
