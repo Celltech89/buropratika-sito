@@ -376,7 +376,18 @@ lista.appendChild(boxScadenze);
 
 const checklist = {
   
-apertura: [
+apertura: (
+  String(item.codice_ateco || '').startsWith('96.21')
+    ? [
+        'Verificare i requisiti professionali per acconciatori e il responsabile tecnico',
+        'Verificare il procedimento SUAP e la SCIA eventualmente applicabile',
+        'Verificare i requisiti igienico-sanitari, urbanistici e di sicurezza dei locali',
+        'Verificare gli adempimenti al Registro Imprese',
+        'Verificare partita IVA e posizioni INPS e INAIL applicabili',
+        'Verificare eventuali ulteriori autorizzazioni'
+      ]
+
+    : [
   'Verificare la destinazione d’uso e i requisiti dei locali',
   'Definire se la gelateria è laboratorio artigianale, vendita o somministrazione',
   'Verificare il procedimento applicabile presso il SUAP di Ancona',
@@ -385,7 +396,7 @@ apertura: [
   'Verificare partita IVA e posizioni INPS e INAIL applicabili',
   'Predisporre autocontrollo HACCP e gestione degli allergeni',
   'Verificare eventuali autorizzazioni aggiuntive'
-],
+]),
 
   cessazione: [
     'Verificare la procedura di cessazione',
