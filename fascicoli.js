@@ -818,7 +818,7 @@ salvaRisposte.onclick = async () => {
       .upsert({
         fascicolo_id: item.id,
         user_id: userId,
-        tipo_attivita: descrizioneAttivita.includes('abbigliamento') ||
+        tipo_attivita: String(item.codice_ateco || '').startsWith('96.21') ? 'parrucchiere' : descrizioneAttivita
   descrizioneAttivita.includes('negozio')
     ? 'commercio'
     : descrizioneAttivita.includes('laboratorio artigianale')
