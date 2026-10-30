@@ -935,6 +935,52 @@ if (verifichePersonalizzate.length) {
 
 card.appendChild(valutazioneBox);
 
+if (item.codice_ateco) {
+  const regoleBox = document.createElement('div');
+  regoleBox.style.cssText =
+    'padding:14px;margin-top:18px;border:1px solid #ccd9dd;border-radius:12px;';
+
+  addText(regoleBox, 'h4', 'Verifiche collegate al codice ATECO');
+  addText(regoleBox, 'p',
+    'Codice: ' + item.codice_ateco +
+    ' — Indicazioni preliminari da verificare.');
+
+  const { data: regole, error: erroreRegole } = await sb
+    .from('bp_regole_ateco_v1')
+    .select('prefisso_ateco,regione,comune,titolo,descrizione,stato_verifica')
+    .eq('tipo_pratica', item.tipo_pratica)
+    .eq('attiva', true)
+    .limit(500);
+
+  if (erroreRegole) {
+    addText(regoleBox, 'p',
+      'Impossibile caricare le verifiche ATECO.');
+    console.error(erroreRegole);
+  } else {
+    const applicabili = (regole || []).filter(r =>
+      item.codice_ateco.startsWith(r.prefisso_ateco) &&
+      (!r.regione || r.regione === 'Marche') &&
+      (!r.comune ||
+        r.comune.toLowerCase() ===
+        String(item.comune || '').toLowerCase())
+    );
+
+    if (!applicabili.length) {
+      addText(regoleBox, 'p',
+        'Nessuna regola preliminare disponibile per questa attività.');
+    }
+
+    for (const r of applicabili) {
+      addText(regoleBox, 'strong', r.titolo);
+      addText(regoleBox, 'p', r.descrizione);
+      addText(regoleBox, 'p',
+        'Stato: ' + r.stato_verifica);
+    }
+  }
+
+  card.appendChild(regoleBox);
+}
+
 const scadenzeBox = document.createElement('div');
 scadenzeBox.style.cssText =
   'padding:14px;margin-top:18px;' +
