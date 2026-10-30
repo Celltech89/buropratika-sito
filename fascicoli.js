@@ -63,6 +63,27 @@
         </textarea>
       </label>
 
+<label>
+  Cerca attività o codice ATECO
+  <input
+    type="search"
+    id="bpAtecoRicerca"
+    placeholder="Es. gelateria, parrucchiere, 56"
+    autocomplete="off">
+</label>
+
+<label>
+  Seleziona attività ATECO
+  <select name="codice_ateco" id="bpAtecoSelect">
+    <option value="">Seleziona un'attività</option>
+  </select>
+</label>
+
+<input
+  type="hidden"
+  name="denominazione_attivita"
+  id="bpAtecoDescrizione">
+
       <button type="submit">
         Salva pratica DEMO
       </button>
