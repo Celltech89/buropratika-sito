@@ -806,6 +806,60 @@ if (erroreValutazione) {
   }
 }
 
+const verifichePersonalizzate = [];
+
+if (isNegozio) {
+  if (risposte?.superficie_vendita &&
+      risposte.superficie_vendita !== 'da_verificare') {
+    verifichePersonalizzate.push(
+      'Verificare il procedimento commerciale applicabile ' +
+      'in base alla superficie di vendita dichiarata.'
+    );
+  }
+
+  if (risposte?.accesso_pubblico === 'si') {
+    verifichePersonalizzate.push(
+      'Verificare accessibilità, sicurezza e requisiti ' +
+      'dei locali aperti al pubblico.'
+    );
+  }
+}
+
+if (isLaboratorio) {
+  if (risposte?.tipo_lavorazione &&
+      risposte.tipo_lavorazione !== 'da_verificare') {
+    verifichePersonalizzate.push(
+      'Verificare gli adempimenti specifici per la lavorazione: ' +
+      risposte.tipo_lavorazione + '.'
+    );
+  }
+
+  if (risposte?.emissioni_scarichi === 'si') {
+    verifichePersonalizzate.push(
+      'Approfondire gli eventuali obblighi ambientali ' +
+      'relativi a emissioni o scarichi.'
+    );
+  }
+}
+
+if (verifichePersonalizzate.length) {
+  addText(
+    valutazioneBox,
+    'h4',
+    'Verifiche aggiuntive in base al questionario'
+  );
+
+  for (const verifica of verifichePersonalizzate) {
+    addText(valutazioneBox, 'p', '• ' + verifica);
+  }
+
+  addText(
+    valutazioneBox,
+    'p',
+    'Indicazioni preliminari da validare con fonti ufficiali.'
+  );
+}
+
 card.appendChild(valutazioneBox);
 
 const scadenzeBox = document.createElement('div');
