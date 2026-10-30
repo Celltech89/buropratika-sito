@@ -1129,8 +1129,14 @@ card.appendChild(esporta);
               values.get('comune') || ''
             ).trim(),
             descrizione: String(
-              values.get('descrizione') || ''
-            ).trim()
+  values.get('descrizione') || ''
+).trim(),
+codice_ateco: String(
+  values.get('codice_ateco') || ''
+).trim() || null,
+denominazione_attivita: String(
+  values.get('denominazione_attivita') || ''
+).trim() || null
           });
 
         if (error) throw error;
