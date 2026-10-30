@@ -161,7 +161,59 @@
         }
       }
     );
+const atecoRicerca = section.querySelector('#bpAtecoRicerca');
+const atecoSelect = section.querySelector('#bpAtecoSelect');
+const atecoDescrizione = section.querySelector('#bpAtecoDescrizione');
 
+if (atecoRicerca && atecoSelect && atecoDescrizione) {
+  let atecoTimer;
+  let ultimaRicerca = 0;
+
+  atecoRicerca.addEventListener('input', () => {
+    clearTimeout(atecoTimer);
+    const richiesta = ++ultimaRicerca;
+    const termine = atecoRicerca.value.trim();
+
+    atecoSelect.replaceChildren(
+      new Option("Seleziona un'attività", '')
+    );
+    atecoDescrizione.value = '';
+
+    if (termine.length < 2) return;
+
+    atecoTimer = setTimeout(async () => {
+      try {
+        const { data, error } = await sb
+          .from('bp_ateco_catalogo_v1')
+          .select('codice,descrizione')
+          .or(`codice.ilike.%${termine}%,descrizione.ilike.%${termine}%`)
+          .limit(30);
+
+        if (error) throw error;
+        if (richiesta !== ultimaRicerca) return;
+
+        for (const voce of data || []) {
+          atecoSelect.add(
+            new Option(
+              `${voce.codice} - ${voce.descrizione}`,
+              voce.codice
+            )
+          );
+        }
+      } catch (error) {
+        console.error('Ricerca ATECO:', error);
+        setStatus('Ricerca ATECO non disponibile.');
+      }
+    }, 350);
+  });
+
+  atecoSelect.addEventListener('change', () => {
+    const opzione = atecoSelect.selectedOptions[0];
+    atecoDescrizione.value = opzione?.value
+      ? opzione.textContent.slice(opzione.value.length + 3)
+      : '';
+  });
+}
     const { data: authData, error: authError } =
       await sb.auth.getUser();
 
