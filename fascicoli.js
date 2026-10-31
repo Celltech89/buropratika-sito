@@ -865,8 +865,7 @@ const { data: valutazioni, error: erroreValutazione } =
     p_fascicolo_id: item.id
   });
 console.log('Valutazione DEMO:', { valutazioni, erroreValutazione });
- + (valutazioni?.length ?? 0) +
-      ' | Errore: ' + (erroreValutazione?.message || 'nessuno'));
+ 
 if (erroreValutazione) {
   addText(
     valutazioneBox,
