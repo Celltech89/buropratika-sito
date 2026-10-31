@@ -192,6 +192,7 @@ if (atecoRicerca && atecoSelect && atecoDescrizione) {
           .limit(50);
 
         if (error) throw error;
+         alert('ATECO TROVATI: ' + (data?.length ?? 'nessun dato'));
         if (richiesta !== ultimaRicerca) return;
 
         for (const voce of data || []) {
