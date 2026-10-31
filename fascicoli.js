@@ -172,7 +172,12 @@ if (atecoRicerca && atecoSelect && atecoDescrizione) {
   atecoRicerca.addEventListener('input', () => {
     clearTimeout(atecoTimer);
     const richiesta = ++ultimaRicerca;
-    const termine = atecoRicerca.value.trim();
+    const testo = atecoRicerca.value.trim().toLowerCase();
+
+const termine = testo
+  .replace(/\b(voglio|vorrei|aprire|avviare|un|una|il|la|attività|negozio di)\b/g, ' ')
+  .replace(/\s+/g, ' ')
+  .trim();
 
     atecoSelect.replaceChildren(
       new Option("Seleziona un'attività", '')
