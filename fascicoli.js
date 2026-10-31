@@ -863,7 +863,9 @@ const { data: valutazioni, error: erroreValutazione } =
   await sb.rpc('bp_valuta_adempimenti_v1', {
     p_fascicolo_id: item.id
   });
-
+console.log('Valutazione DEMO:', { valutazioni, erroreValutazione });
+alert('Valutazioni ricevute: ' + (valutazioni?.length ?? 0) +
+      ' | Errore: ' + (erroreValutazione?.message || 'nessuno'));
 if (erroreValutazione) {
   addText(
     valutazioneBox,
