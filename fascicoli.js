@@ -168,7 +168,13 @@ const atecoDescrizione = section.querySelector('#bpAtecoDescrizione');
 if (atecoRicerca && atecoSelect && atecoDescrizione) {
   let atecoTimer;
   let ultimaRicerca = 0;
+const suggerimentiAteco = document.createElement('div');
+suggerimentiAteco.style.cssText =
+  'display:none;background:white;border:1px solid #ccc;' +
+  'border-radius:12px;padding:8px;margin-top:6px;' +
+  'max-height:280px;overflow-y:auto;';
 
+atecoRicerca.insertAdjacentElement('afterend', suggerimentiAteco);
   atecoRicerca.addEventListener('input', () => {
     clearTimeout(atecoTimer);
     const richiesta = ++ultimaRicerca;
@@ -208,6 +214,30 @@ const termine = testo
             )
           );
         }
+         
+suggerimentiAteco.replaceChildren();
+
+for (const voce of data || []) {
+  const pulsante = document.createElement('button');
+  pulsante.type = 'button';
+  pulsante.textContent = `${voce.codice} - ${voce.descrizione}`;
+  pulsante.style.cssText =
+    'display:block;width:100%;padding:12px;text-align:left;' +
+    'background:white;border:0;border-bottom:1px solid #eee;';
+
+  pulsante.onclick = () => {
+    atecoSelect.value = voce.codice;
+    atecoDescrizione.value = voce.descrizione;
+    atecoRicerca.value = voce.descrizione;
+    suggerimentiAteco.style.display = 'none';
+  };
+
+  suggerimentiAteco.appendChild(pulsante);
+}
+
+suggerimentiAteco.style.display =
+  data?.length ? 'block' : 'none';
+
       } catch (error) {
         console.error('Ricerca ATECO:', error);
          alert('ERRORE ATECO: ' + (error?.message || String(error)));
