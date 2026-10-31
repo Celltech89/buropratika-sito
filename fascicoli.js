@@ -186,7 +186,9 @@ if (atecoRicerca && atecoSelect && atecoDescrizione) {
         const { data, error } = await sb
           .from('bp_ateco_catalogo_v1')
           .select('codice,descrizione')
-          .or(`codice.ilike.%${termine}%,descrizione.ilike.%${termine}%`)
+          
+.ilike('descrizione', `%${termine}%`)
+
           .limit(50);
 
         if (error) throw error;
