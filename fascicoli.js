@@ -187,7 +187,7 @@ if (atecoRicerca && atecoSelect && atecoDescrizione) {
           .from('bp_ateco_catalogo_v1')
           .select('codice,descrizione')
           .or(`codice.ilike.%${termine}%,descrizione.ilike.%${termine}%`)
-          .limit(30);
+          .limit(50);
 
         if (error) throw error;
         if (richiesta !== ultimaRicerca) return;
@@ -225,7 +225,7 @@ if (atecoRicerca && atecoSelect && atecoDescrizione) {
     }
 
     const userId = authData.user.id;
-     alert('Utente BuroPratika: ' + userId);
+
     form.hidden = false;
 
     async function reload() {
@@ -375,75 +375,49 @@ lista.appendChild(boxScadenze);
           'Stato: ' + item.stato
         );
 
+// Checklist trasversale: non presume che tutti i settori siano gelaterie.
+const codiceAteco = String(item.codice_ateco || '').trim();
+const nomeAttivita = String(item.denominazione_attivita || item.descrizione || '').toLowerCase();
+const descrizioneAttivita = nomeAttivita;
+const isNegozio = /commercio|negozio|vendita al dettaglio|abbigliamento/.test(nomeAttivita);
+const isLaboratorio = /laboratorio|fabbricazione|produzione|manifattur|artigian/.test(nomeAttivita);
+const isAlimentare = /aliment|ristor|gelat|panific|pasticcer|bar\b|bevande/.test(nomeAttivita);
 const checklist = {
-  
-apertura: (
-  String(item.codice_ateco || '').startsWith('96.21')
-    ? [
-        'Verificare i requisiti professionali per acconciatori e il responsabile tecnico',
-        'Verificare il procedimento SUAP e la SCIA eventualmente applicabile',
-        'Verificare i requisiti igienico-sanitari, urbanistici e di sicurezza dei locali',
-        'Verificare gli adempimenti al Registro Imprese',
-        'Verificare partita IVA e posizioni INPS e INAIL applicabili',
-        'Verificare eventuali ulteriori autorizzazioni'
-      ]
-
-    : [
-  'Verificare la destinazione d’uso e i requisiti dei locali',
-  'Definire se la gelateria è laboratorio artigianale, vendita o somministrazione',
-  'Verificare il procedimento applicabile presso il SUAP di Ancona',
-  'Predisporre e presentare la notifica sanitaria quando richiesta',
-  'Verificare gli adempimenti al Registro Imprese',
-  'Verificare partita IVA e posizioni INPS e INAIL applicabili',
-  'Predisporre autocontrollo HACCP e gestione degli allergeni',
-  'Verificare eventuali autorizzazioni aggiuntive'
-]),
-
+  apertura: [
+    'Confermare il codice ATECO e l’attività effettivamente esercitata',
+    'Verificare i requisiti soggettivi e professionali specifici del settore',
+    'Verificare presso il SUAP competente SCIA, comunicazioni e autorizzazioni applicabili',
+    'Verificare destinazione d’uso, conformità e sicurezza dei locali, se presenti',
+    'Verificare gli adempimenti presso Registro Imprese e Camera di Commercio',
+    'Verificare gli adempimenti fiscali, previdenziali e assicurativi applicabili',
+    'Verificare eventuali obblighi ambientali, sanitari e di sicurezza sul lavoro',
+    'Confermare le fonti ufficiali e le regole aggiornate prima dell’invio'
+  ],
   cessazione: [
-    'Verificare la procedura di cessazione',
-    'Controllare gli adempimenti al Registro Imprese',
-    'Verificare la chiusura delle posizioni fiscali e previdenziali'
+    'Verificare cessazione presso SUAP, se applicabile',
+    'Verificare Registro Imprese e Comunicazione Unica',
+    'Verificare posizioni fiscali, previdenziali e assicurative',
+    'Verificare ulteriori comunicazioni, titoli e obblighi pendenti'
   ],
   subingresso: [
-    'Verificare titolo e requisiti del subentrante',
-    'Controllare gli adempimenti SUAP',
-    'Verificare le comunicazioni al Registro Imprese'
+    'Verificare titolo di subingresso e requisiti del subentrante',
+    'Verificare procedura SUAP e autorizzazioni trasferibili',
+    'Verificare Registro Imprese e adempimenti fiscali',
+    'Verificare requisiti dei locali e obblighi specifici del settore'
   ]
 };
-
-const descrizioneAttivita =
-  String(item.descrizione || '').toLowerCase();
-
-if (
-  descrizioneAttivita.includes('abbigliamento') ||
-  descrizioneAttivita.includes('negozio')
-) {
-  checklist.apertura = [
-    'Verificare destinazione d’uso e agibilità dei locali',
-    'Verificare i requisiti per il commercio al dettaglio',
-    'Individuare la procedura SUAP applicabile ad Ancona',
-    'Verificare se occorre una SCIA commerciale',
-    'Verificare iscrizione al Registro Imprese',
-    'Verificare partita IVA e posizioni previdenziali',
-    'Controllare sicurezza dei locali e accessibilità',
-    'Verificare insegne ed eventuali autorizzazioni aggiuntive'
-  ];
-}
-
-if (
-  descrizioneAttivita.includes('laboratorio artigianale')
-) {
-  checklist.apertura = [
-    'Verificare destinazione d’uso e compatibilità dei locali',
-    'Identificare la lavorazione artigianale specifica',
-    'Verificare procedimento applicabile presso il SUAP',
-    'Verificare iscrizione all’Albo imprese artigiane',
-    'Verificare partita IVA e posizioni INPS e INAIL',
-    'Valutare obblighi di sicurezza sul lavoro',
-    'Verificare eventuali emissioni, scarichi e rifiuti',
-    'Verificare eventuali autorizzazioni ambientali'
-  ];
-}
+if (codiceAteco.startsWith('96.21')) checklist.apertura.push(
+  'Verificare abilitazione acconciatore e responsabile tecnico'
+);
+if (isAlimentare) checklist.apertura.push(
+  'Verificare notifica sanitaria, autocontrollo e obblighi alimentari applicabili'
+);
+if (isNegozio) checklist.apertura.push(
+  'Verificare superficie di vendita e regime amministrativo del commercio'
+);
+if (isLaboratorio) checklist.apertura.push(
+  'Verificare lavorazioni, emissioni, scarichi e altri eventuali obblighi di settore'
+);
 
 const listaControlli = document.createElement('div');
 
@@ -617,20 +591,18 @@ addText(
   'Adempimenti amministrativi'
 );
 
-const descrizione = String(
-  item.descrizione || ''
-).toLowerCase();
-
-const settore = descrizione.includes('gelateria')
-  ? 'gelateria'
+const settore = codiceAteco.startsWith('96.21') ? 'parrucchiere'
+  : isAlimentare && /gelat/.test(nomeAttivita) ? 'gelateria'
+  : isNegozio ? 'commercio'
+  : isLaboratorio ? 'artigianato'
   : null;
 
 if (!settore) {
   addText(
     boxAdempimenti,
     'p',
-    'Settore non ancora classificato. ' +
-    'Occorre verificare gli adempimenti applicabili.'
+    'Codice ATECO selezionabile, ma regole settoriali ancora da validare. ' +
+    'Consulta le verifiche ATECO e il SUAP competente.'
   );
 } else {
   const { data: regole, error: erroreRegole } =
@@ -748,13 +720,6 @@ const locali = creaScelta(
   risposte?.situazione_locali || 'da_verificare'
 );
 
-const isNegozio =
-  descrizioneAttivita.includes('abbigliamento') ||
-  descrizioneAttivita.includes('negozio');
-
-const isLaboratorio =
-  descrizioneAttivita.includes('laboratorio artigianale');
-
 let superficieVendita = null;
 let accessoPubblico = null;
 let tipoLavorazione = null;
@@ -819,12 +784,7 @@ salvaRisposte.onclick = async () => {
       .upsert({
         fascicolo_id: item.id,
         user_id: userId,
-        tipo_attivita: String(item.codice_ateco || '').startsWith('96.21') ? 'parrucchiere' : 
-  descrizioneAttivita.includes('negozio')
-    ? 'commercio'
-    : descrizioneAttivita.includes('laboratorio artigianale')
-      ? 'artigianato'
-      : 'gelateria',
+        tipo_attivita: settore || 'da_classificare',
         modello_attivita: modello.value,
         somministrazione: somministrazione.value,
         situazione_locali: locali.value,
@@ -838,7 +798,8 @@ emissioni_scarichi: emissioniScarichi?.value ?? null,
       }, { onConflict: 'fascicolo_id' });
 
     if (error) throw error;
-    setStatus('Questionario salvato correttamente');
+    setStatus('Questionario salvato. Aggiornamento valutazioni...');
+    await reload();
   } catch (error) {
     setStatus('Errore questionario: ' + error.message);
   } finally {
@@ -864,7 +825,7 @@ const { data: valutazioni, error: erroreValutazione } =
   await sb.rpc('bp_valuta_adempimenti_v1', {
     p_fascicolo_id: item.id
   });
-console.log('Valutazione DEMO:', { valutazioni, erroreValutazione });
+
  
 if (erroreValutazione) {
   addText(
@@ -885,7 +846,7 @@ if (erroreValutazione) {
     dettaglio.style.marginBottom = '16px';
 
     addText(dettaglio, 'strong', v.titolo);
-    addText(dettaglio, 'p', 'Esito: ' + v.esito);
+    addText(dettaglio, 'p', 'Esito: ' + (v.esito === 'INFORMAZIONI_MANCANTI' ? 'Da completare' : v.esito === 'VERIFICA_SPECIFICA' ? 'Verifica specifica necessaria' : v.esito));
     addText(dettaglio, 'p', v.motivazione);
 
     valutazioneBox.appendChild(dettaglio);
@@ -963,7 +924,7 @@ if (item.codice_ateco) {
     .select('prefisso_ateco,regione,comune,titolo,descrizione,stato_verifica')
     .eq('tipo_pratica', item.tipo_pratica)
     .eq('attiva', true)
-    .limit(500);
+    .limit(5000);
 
   if (erroreRegole) {
     addText(regoleBox, 'p',
@@ -980,7 +941,7 @@ if (item.codice_ateco) {
 
     if (!applicabili.length) {
       addText(regoleBox, 'p',
-        'Nessuna regola preliminare disponibile per questa attività.');
+        'Nessuna regola ATECO disponibile per questa attività: verifica normativa necessaria.');
     }
 
     for (const r of applicabili) {
@@ -1206,7 +1167,7 @@ doc.head.appendChild(stilePDF);
   aggiungi('h2', 'Avvertenza');
   aggiungi(
     'p',
-    'DOCUMENTO DIMOSTRATIVO - NON VALIDO COME ' +
+    'DOCUMENTO DIMOSTRATIVO - COPERTURA NORMATIVA NON GARANTITA - NON VALIDO COME ' +
     'PRATICA AMMINISTRATIVA. Gli adempimenti ' +
     'devono essere verificati presso gli enti competenti.'
   );
@@ -1250,6 +1211,10 @@ card.appendChild(esporta);
         }
 
         setStatus('Salvataggio in corso...');
+
+        if (!String(values.get('codice_ateco') || '').trim()) {
+          throw new Error('Seleziona un codice ATECO dai risultati della ricerca.');
+        }
 
         const { error } = await sb
           .from('bp_fascicoli_demo_v1')
