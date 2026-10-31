@@ -204,6 +204,7 @@ if (atecoRicerca && atecoSelect && atecoDescrizione) {
         }
       } catch (error) {
         console.error('Ricerca ATECO:', error);
+         alert('ERRORE ATECO: ' + (error?.message || String(error)));
         setStatus('Ricerca ATECO non disponibile.');
       }
     }, 350);
