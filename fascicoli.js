@@ -225,6 +225,7 @@ if (atecoRicerca && atecoSelect && atecoDescrizione) {
     }
 
     const userId = authData.user.id;
+     alert('Utente BuroPratika: ' + userId);
     form.hidden = false;
 
     async function reload() {
