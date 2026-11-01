@@ -849,6 +849,104 @@ emissioni_scarichi: emissioniScarichi?.value ?? null,
 questionario.appendChild(salvaRisposte);
 card.appendChild(questionario);
 
+const universaleBox = document.createElement('div');
+universaleBox.style.cssText =
+  'padding:14px;margin-top:18px;border:1px solid #176577;' +
+  'border-radius:12px;background:#f7fafb';
+
+addText(universaleBox, 'h4', 'Questionario universale ATECO');
+
+const { data: domandeUniversali, error: erroreDomande } =
+  await sb.from('bp_domande_universali')
+    .select('domanda,campo,tipo,opzioni,prefisso_ateco')
+    .eq('attiva', true);
+
+if (erroreDomande) {
+  addText(universaleBox, 'p',
+    'Errore caricamento domande: ' + erroreDomande.message);
+} else {
+  const { data: risposteUniversali, error: erroreRisposte } =
+    await sb.from('bp_risposte_universali')
+      .select('campo,risposta')
+      .eq('fascicolo_id', item.id)
+      .eq('user_id', userId);
+
+  if (erroreRisposte) {
+    addText(universaleBox, 'p',
+      'Errore caricamento risposte: ' + erroreRisposte.message);
+  } else {
+    const precedenti = Object.fromEntries(
+      (risposteUniversali || []).map(r => [r.campo, r.risposta])
+    );
+
+    const controlli = [];
+
+    for (const d of domandeUniversali || []) {
+      if (d.prefisso_ateco &&
+          !String(item.codice_ateco || '')
+            .startsWith(d.prefisso_ateco)) continue;
+
+      const label = document.createElement('label');
+      label.style.cssText = 'display:block;margin:12px 0';
+      addText(label, 'strong', d.domanda);
+
+      const select = document.createElement('select');
+      select.style.cssText =
+        'display:block;width:100%;padding:12px;margin-top:8px';
+
+      select.add(new Option('Da definire', ''));
+
+      const opzioni = Array.isArray(d.opzioni) ? d.opzioni : [];
+      for (const op of opzioni) {
+        const valore = typeof op === 'string'
+          ? op : String(op.valore ?? op.value ?? '');
+        const testo = typeof op === 'string'
+          ? op : String(op.etichetta ?? op.label ?? valore);
+        select.add(new Option(testo, valore));
+      }
+
+      select.value = precedenti[d.campo] || '';
+      label.appendChild(select);
+      universaleBox.appendChild(label);
+      controlli.push({ campo: d.campo, select });
+    }
+
+    const salvaUniversale = document.createElement('button');
+    salvaUniversale.type = 'button';
+    salvaUniversale.textContent = 'Salva questionario universale';
+
+    salvaUniversale.onclick = async () => {
+      salvaUniversale.disabled = true;
+      try {
+        const righe = controlli.map(c => ({
+          fascicolo_id: item.id,
+          user_id: userId,
+          campo: c.campo,
+          risposta: c.select.value,
+          aggiornato_il: new Date().toISOString()
+        }));
+
+        if (righe.length) {
+          const { error } = await sb
+            .from('bp_risposte_universali')
+            .upsert(righe, { onConflict: 'fascicolo_id,campo' });
+          if (error) throw error;
+        }
+
+        setStatus('Questionario universale salvato');
+      } catch (e) {
+        setStatus('Errore questionario universale: ' + e.message);
+      } finally {
+        salvaUniversale.disabled = false;
+      }
+    };
+
+    universaleBox.appendChild(salvaUniversale);
+  }
+}
+
+card.appendChild(universaleBox);
+
 const valutazioneBox = document.createElement('div');
 valutazioneBox.style.cssText =
   'margin-top:18px;padding:14px;' +
