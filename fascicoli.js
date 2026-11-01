@@ -1310,6 +1310,87 @@ doc.head.appendChild(stilePDF);
   aggiungi('p', 'Somministrazione: ' + (risposte?.somministrazione || 'Da verificare'));
   aggiungi('p', 'Locali: ' + (risposte?.situazione_locali || 'Da verificare'));
 
+  // QUESTIONARIO UNIVERSALE NEL PDF
+  aggiungi('h2', 'Questionario universale ATECO');
+
+  try {
+    const [domandePDF, rispostePDF] = await Promise.all([
+      sb.from('bp_domande_universali')
+        .select('campo,domanda,prefisso_ateco')
+        .eq('attiva', true),
+      sb.from('bp_risposte_universali')
+        .select('campo,risposta')
+        .eq('fascicolo_id', item.id)
+        .eq('user_id', userId)
+    ]);
+
+    if (domandePDF.error) throw domandePDF.error;
+    if (rispostePDF.error) throw rispostePDF.error;
+
+    const nomi = new Map(
+      (domandePDF.data || [])
+        .filter(d =>
+          !d.prefisso_ateco ||
+          codiceAteco.startsWith(d.prefisso_ateco)
+        )
+        .map(d => [d.campo, d.domanda])
+    );
+
+    const risposteDaStampare = (rispostePDF.data || [])
+      .filter(r => nomi.has(r.campo));
+
+    for (const r of risposteDaStampare) {
+      aggiungi(
+        'p',
+        nomi.get(r.campo) + ': ' +
+        (r.risposta || 'Da definire')
+      );
+    }
+
+    if (!risposteDaStampare.length) {
+      aggiungi('p', 'Nessuna risposta salvata.');
+    }
+  } catch (e) {
+    aggiungi('p',
+      'Questionario non disponibile: ' + e.message);
+  }
+
+  // ADEMPIMENTI AUTOMATICI NEL PDF
+  aggiungi('h2', 'Adempimenti automatici ATECO');
+
+  try {
+    const { data, error } = await sb.rpc(
+      'bp_motore_universale',
+      { p_fascicolo_id: item.id }
+    );
+
+    if (error) throw error;
+
+    for (const r of data || []) {
+      aggiungi('h3', r.titolo || 'Verifica');
+      aggiungi('p', 'Ente: ' + (r.ente || 'Da verificare'));
+      aggiungi('p', 'Stato: ' + r.stato);
+      aggiungi('p', r.motivazione || '');
+
+      if (r.fonte_ufficiale &&
+          /^https:\/\//i.test(r.fonte_ufficiale)) {
+        const link = doc.createElement('a');
+        link.href = r.fonte_ufficiale;
+        link.textContent = 'Fonte ufficiale';
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        doc.body.appendChild(link);
+      }
+    }
+
+    if (!data?.length) {
+      aggiungi('p', 'Nessun adempimento configurato.');
+    }
+  } catch (e) {
+    aggiungi('p',
+      'Adempimenti non disponibili: ' + e.message);
+  }
+
   aggiungi('h2', 'Checklist');
   for (const voce of checklist[item.tipo_pratica] || []) {
     aggiungi('p', (completate.has(voce) ? '[X] ' : '[ ] ') + voce);
