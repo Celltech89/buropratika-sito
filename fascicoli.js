@@ -947,6 +947,102 @@ if (erroreDomande) {
 
 card.appendChild(universaleBox);
 
+/* MOTORE AUTOMATICO ADEMPIMENTI */
+const motoreBox = document.createElement('div');
+motoreBox.style.cssText =
+  'padding:14px;margin-top:18px;border:1px solid #176577;' +
+  'border-radius:12px;background:#f7fafb';
+
+addText(motoreBox, 'h4', 'Adempimenti automatici ATECO');
+
+const { data: risultatiMotore, error: erroreMotore } =
+  await sb.rpc('bp_motore_universale', {
+    p_fascicolo_id: item.id
+  });
+
+if (erroreMotore) {
+  addText(motoreBox, 'p',
+    'Errore motore: ' + erroreMotore.message);
+} else if (!risultatiMotore?.length) {
+  addText(motoreBox, 'p',
+    'Nessun adempimento configurato per questa pratica. ' +
+    'Verifica normativa ancora necessaria.');
+} else {
+  for (const r of risultatiMotore) {
+    const scheda = document.createElement('div');
+    scheda.style.cssText =
+      'padding:12px;margin:10px 0;background:white;' +
+      'border:1px solid #ddd;border-radius:8px';
+
+    addText(scheda, 'strong', r.titolo);
+    addText(scheda, 'p', 'Ente: ' + (r.ente || 'Da verificare'));
+    addText(scheda, 'p', 'Stato: ' + r.stato);
+    addText(scheda, 'p', r.motivazione);
+
+    if (r.fonte_ufficiale &&
+        /^https:\/\//i.test(r.fonte_ufficiale)) {
+      const link = document.createElement('a');
+      link.href = r.fonte_ufficiale;
+      link.textContent = 'Fonte ufficiale';
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      scheda.appendChild(link);
+    }
+
+    motoreBox.appendChild(scheda);
+  }
+}
+
+card.appendChild(motoreBox);
+
+/* MOTORE AUTOMATICO ADEMPIMENTI */
+const motoreBox = document.createElement('div');
+motoreBox.style.cssText =
+  'padding:14px;margin-top:18px;border:1px solid #176577;' +
+  'border-radius:12px;background:#f7fafb';
+
+addText(motoreBox, 'h4', 'Adempimenti automatici ATECO');
+
+const { data: risultatiMotore, error: erroreMotore } =
+  await sb.rpc('bp_motore_universale', {
+    p_fascicolo_id: item.id
+  });
+
+if (erroreMotore) {
+  addText(motoreBox, 'p',
+    'Errore motore: ' + erroreMotore.message);
+} else if (!risultatiMotore?.length) {
+  addText(motoreBox, 'p',
+    'Nessun adempimento configurato per questa pratica. ' +
+    'Verifica normativa ancora necessaria.');
+} else {
+  for (const r of risultatiMotore) {
+    const scheda = document.createElement('div');
+    scheda.style.cssText =
+      'padding:12px;margin:10px 0;background:white;' +
+      'border:1px solid #ddd;border-radius:8px';
+
+    addText(scheda, 'strong', r.titolo);
+    addText(scheda, 'p', 'Ente: ' + (r.ente || 'Da verificare'));
+    addText(scheda, 'p', 'Stato: ' + r.stato);
+    addText(scheda, 'p', r.motivazione);
+
+    if (r.fonte_ufficiale &&
+        /^https:\/\//i.test(r.fonte_ufficiale)) {
+      const link = document.createElement('a');
+      link.href = r.fonte_ufficiale;
+      link.textContent = 'Fonte ufficiale';
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      scheda.appendChild(link);
+    }
+
+    motoreBox.appendChild(scheda);
+  }
+}
+
+card.appendChild(motoreBox);
+
 const valutazioneBox = document.createElement('div');
 valutazioneBox.style.cssText =
   'margin-top:18px;padding:14px;' +
