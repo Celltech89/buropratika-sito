@@ -1,4 +1,3 @@
-
 /* BuroPratika 4.6 - Fascicoli DEMO
    Usare esclusivamente dati inventati.
 */
@@ -1495,4 +1494,5 @@ denominazione_attivita: String(
     setStatus('Errore: ' + error.message);
   }
 })();
+
 
