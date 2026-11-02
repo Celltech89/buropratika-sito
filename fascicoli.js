@@ -1501,6 +1501,75 @@ doc.head.appendChild(stilePDF);
       'Adempimenti non disponibili: ' + e.message);
   }
 
+  // STATO CHECKLIST OPERATIVA NEL PDF
+  aggiungi('h2', 'Checklist operativa degli adempimenti');
+
+  try {
+    const { data: attivitaPDF, error: erroreAttivitaPDF } =
+      await sb.from('bp_checklist_demo_v1')
+        .select('voce,completata')
+        .eq('fascicolo_id', item.id)
+        .eq('user_id', userId);
+
+    if (erroreAttivitaPDF) throw erroreAttivitaPDF;
+
+    const statiPDF = new Map(
+      (attivitaPDF || []).map(
+        r => [r.voce, r.completata === true]
+      )
+    );
+
+    const { data: regolePDF, error: erroreRegolePDF } =
+      await sb.rpc('bp_motore_universale', {
+        p_fascicolo_id: item.id
+      });
+
+    if (erroreRegolePDF) throw erroreRegolePDF;
+
+    const vociPDF = [...new Set(
+      (regolePDF || []).map(r => r.titolo)
+    )];
+
+    let completatePDF = 0;
+
+    for (const titolo of vociPDF) {
+      const completata = statiPDF.get(
+        'ADEMPIMENTO: ' + titolo
+      ) === true;
+
+      if (completata) completatePDF++;
+
+      aggiungi(
+        'p',
+        (completata ? '[X] COMPLETATA - ' : '[ ] DA FARE - ')
+        + titolo
+      );
+    }
+
+    aggiungi(
+      'p',
+      'Avanzamento operativo: ' +
+      completatePDF + ' su ' + vociPDF.length
+    );
+
+    if (!vociPDF.length) {
+      aggiungi('p', 'Nessun adempimento configurato.');
+    }
+
+    aggiungi(
+      'p',
+      'Le spunte indicano attività operative dichiarate ' +
+      'come svolte, non certificano la conformità normativa.'
+    );
+
+  } catch (errorePDF) {
+    aggiungi(
+      'p',
+      'Checklist operativa non disponibile: ' +
+      (errorePDF.message || String(errorePDF))
+    );
+  }
+
   aggiungi('h2', 'Checklist');
   for (const voce of checklist[item.tipo_pratica] || []) {
     aggiungi('p', (completate.has(voce) ? '[X] ' : '[ ] ') + voce);
