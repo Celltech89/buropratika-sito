@@ -1353,6 +1353,182 @@ for (const elemento of [
 card.appendChild(scadenzeBox);
 await mostraScadenze();
 
+/* ARCHIVIO DOCUMENTI DEL FASCICOLO - DEMO */
+{
+  const archivio = document.createElement('div');
+  archivio.style.cssText =
+    'padding:14px;margin-top:18px;' +
+    'border:1px solid #176577;' +
+    'border-radius:12px;background:#f7fafb';
+
+  addText(archivio, 'h4', 'Documenti della pratica');
+
+  addText(
+    archivio, 'p',
+    'Archivio privato DEMO: PDF, JPG o PNG, massimo 10 MB.'
+  );
+
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = '.pdf,.jpg,.jpeg,.png';
+  fileInput.style.cssText =
+    'display:block;width:100%;margin:12px 0';
+
+  const caricaFile = document.createElement('button');
+  caricaFile.type = 'button';
+  caricaFile.textContent = 'Carica documento';
+
+  const elencoFile = document.createElement('div');
+  elencoFile.style.marginTop = '14px';
+
+  const cartella = userId + '/' + item.id;
+  const bucket = sb.storage.from('bp-documenti-demo');
+
+  async function aggiornaDocumenti() {
+    elencoFile.replaceChildren();
+
+    const { data, error } = await bucket.list(cartella, {
+      limit: 100,
+      sortBy: {
+        column: 'created_at',
+        order: 'desc'
+      }
+    });
+
+    if (error) {
+      addText(elencoFile, 'p',
+        'Errore archivio: ' + error.message);
+      return;
+    }
+
+    if (!data?.length) {
+      addText(elencoFile, 'p',
+        'Nessun documento caricato.');
+      return;
+    }
+
+    for (const file of data) {
+      if (!file.id) continue;
+
+      const riga = document.createElement('div');
+      riga.style.cssText =
+        'padding:10px;margin:8px 0;' +
+        'background:white;border:1px solid #ddd;' +
+        'border-radius:8px;overflow-wrap:anywhere';
+
+      const nomeOriginale =
+        file.name.replace(/^[0-9a-f-]{36}_/i, '');
+
+      addText(riga, 'strong', nomeOriginale);
+
+      const scarica = document.createElement('button');
+      scarica.type = 'button';
+      scarica.textContent = 'Scarica';
+
+      scarica.onclick = async () => {
+        scarica.disabled = true;
+        try {
+          const { data, error } =
+            await bucket.download(cartella + '/' + file.name);
+
+          if (error) throw error;
+
+          const url = URL.createObjectURL(data);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = nomeOriginale;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 60000);
+        } catch (e) {
+          setStatus('Errore download: ' + e.message);
+        } finally {
+          scarica.disabled = false;
+        }
+      };
+
+      const elimina = document.createElement('button');
+      elimina.type = 'button';
+      elimina.textContent = 'Elimina';
+
+      elimina.onclick = async () => {
+        if (!confirm('Eliminare questo documento?')) return;
+
+        elimina.disabled = true;
+        try {
+          const { error } = await bucket.remove([
+            cartella + '/' + file.name
+          ]);
+          if (error) throw error;
+
+          setStatus('Documento eliminato');
+          await aggiornaDocumenti();
+        } catch (e) {
+          setStatus('Errore eliminazione: ' + e.message);
+          elimina.disabled = false;
+        }
+      };
+
+      riga.append(scarica, elimina);
+      elencoFile.appendChild(riga);
+    }
+  }
+
+  caricaFile.onclick = async () => {
+    const file = fileInput.files?.[0];
+    if (!file) {
+      setStatus('Seleziona un documento.');
+      return;
+    }
+
+    const tipi = [
+      'application/pdf',
+      'image/jpeg',
+      'image/png'
+    ];
+
+    if (!tipi.includes(file.type) ||
+        file.size > 10 * 1024 * 1024) {
+      setStatus('Usa PDF, JPG o PNG fino a 10 MB.');
+      return;
+    }
+
+    caricaFile.disabled = true;
+
+    try {
+      const nomeSicuro = file.name
+        .replace(/[^a-zA-Z0-9._-]/g, '_')
+        .slice(-100);
+
+      const percorso = cartella + '/' +
+        crypto.randomUUID() + '_' + nomeSicuro;
+
+      const { error } = await bucket.upload(
+        percorso, file, {
+          contentType: file.type,
+          upsert: false
+        }
+      );
+
+      if (error) throw error;
+
+      fileInput.value = '';
+      setStatus('Documento caricato');
+      await aggiornaDocumenti();
+    } catch (e) {
+      setStatus('Errore caricamento: ' + e.message);
+    } finally {
+      caricaFile.disabled = false;
+    }
+  };
+
+  archivio.append(fileInput, caricaFile, elencoFile);
+  card.appendChild(archivio);
+
+  await aggiornaDocumenti();
+}
+
 const esporta = document.createElement('button');
 esporta.type = 'button';
 esporta.textContent = 'Esporta fascicolo PDF';
