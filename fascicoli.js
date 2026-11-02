@@ -994,6 +994,116 @@ if (erroreMotore) {
 
 card.appendChild(motoreBox);
 
+/* CHECKLIST OPERATIVA ADEMPIMENTI */
+{
+  const operativaBox = document.createElement('div');
+  operativaBox.style.cssText =
+    'padding:14px;margin-top:18px;' +
+    'border:1px solid #176577;border-radius:12px;';
+
+  addText(operativaBox, 'h4', 'Checklist operativa');
+  const avanzamentoOperativo =
+    addText(operativaBox, 'p', 'Caricamento...');
+
+  card.appendChild(operativaBox);
+
+  try {
+    if (erroreMotore) throw erroreMotore;
+
+    const voci = [...new Set(
+      (risultatiMotore || []).map(
+        r => 'ADEMPIMENTO: ' + r.titolo
+      )
+    )];
+
+    const { data: spunte, error } = await sb
+      .from('bp_checklist_demo_v1')
+      .select('voce,completata')
+      .eq('fascicolo_id', item.id)
+      .eq('user_id', userId);
+
+    if (error) throw error;
+
+    const completateOperative = new Set(
+      (spunte || [])
+        .filter(s => s.completata)
+        .map(s => s.voce)
+    );
+
+    function aggiornaAvanzamento() {
+      const completate = voci.filter(
+        v => completateOperative.has(v)
+      ).length;
+      avanzamentoOperativo.textContent =
+        completate + ' di ' + voci.length +
+        ' verifiche completate';
+    }
+
+    for (const voce of voci) {
+      const riga = document.createElement('label');
+      riga.style.cssText =
+        'display:flex;gap:10px;margin:12px 0;';
+
+      const casella = document.createElement('input');
+      casella.type = 'checkbox';
+      casella.checked = completateOperative.has(voce);
+
+      const titolo = document.createElement('span');
+      titolo.textContent = voce.replace('ADEMPIMENTO: ', '');
+
+      casella.addEventListener('change', async () => {
+        const valore = casella.checked;
+        casella.disabled = true;
+
+        try {
+          const { error } = await sb
+            .from('bp_checklist_demo_v1')
+            .upsert({
+              fascicolo_id: item.id,
+              user_id: userId,
+              voce,
+              completata: valore,
+              aggiornato_il: new Date().toISOString()
+            }, {
+              onConflict: 'fascicolo_id,voce'
+            });
+
+          if (error) throw error;
+
+          if (valore) completateOperative.add(voce);
+          else completateOperative.delete(voce);
+
+          aggiornaAvanzamento();
+          setStatus('Checklist operativa salvata');
+        } catch (e) {
+          casella.checked = !valore;
+          setStatus('Errore checklist: ' + e.message);
+        } finally {
+          casella.disabled = false;
+        }
+      });
+
+      riga.append(casella, titolo);
+      operativaBox.appendChild(riga);
+    }
+
+    if (!voci.length) {
+      addText(operativaBox, 'p',
+        'Nessuna verifica automatica disponibile.');
+    }
+
+    aggiornaAvanzamento();
+
+    addText(operativaBox, 'p',
+      'Le spunte registrano attività operative, ' +
+      'non certificano la conformità normativa.');
+
+  } catch (e) {
+    avanzamentoOperativo.textContent =
+      'Checklist non disponibile: ' + e.message;
+  }
+}
+
 
 
 const valutazioneBox = document.createElement('div');
