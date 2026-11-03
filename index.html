@@ -994,6 +994,255 @@ get('proDownload').addEventListener('click',()=>{
 })();
 </script>
 
+<!-- BUROPRATIKA 4.5 - Collegamento richieste -->
+<script type="module">
+(async function () {
+  if (window.bp45Loaded) return;
+  window.bp45Loaded = true;
+
+  // Corregge la doppia Demo investitori.
+  const demo = document.querySelectorAll(
+    'section[id="demo-investitori"]'
+  );
+  demo.forEach((el, i) => {
+    if (i > 0) el.remove();
+  });
+
+  const link = demo[0]?.querySelector(
+    'a[href="#fascicolo-vivo"]'
+  );
+  if (link) link.href = '#workspace';
+
+  const section = document.createElement('section');
+  section.id = 'richiesta-professionista';
+  section.className = 'vivo';
+  section.style.maxWidth = '1080px';
+  section.style.margin = '25px auto';
+
+  section.innerHTML = `
+    <h2>Assistenza professionale BuroPratika</h2>
+    <p>Demo operativa per collegare impresa e
+    professionista verificato. Utilizza soltanto
+    informazioni inventate.</p>
+
+    <div class="vivo-grid">
+      <div class="vivo-card">
+        <h3>Impresa · Nuova richiesta</h3>
+
+        <label>Professionista verificato</label>
+        <select id="bp45Pro">
+          <option value="">Caricamento...</option>
+        </select>
+
+        <label>Tipo pratica</label>
+        <select id="bp45Tipo">
+          <option value="apertura">Apertura</option>
+          <option value="cessione">Cessione / subingresso</option>
+          <option value="cessazione">Cessazione</option>
+          <option value="consulenza">Consulenza</option>
+        </select>
+
+        <label>Comune e provincia</label>
+        <input id="bp45Comune" maxlength="100"
+          placeholder="Ancona (AN)">
+
+        <label>Descrizione fittizia</label>
+        <textarea id="bp45Descrizione"
+          maxlength="500"
+          placeholder="Vorrei aprire una gelateria di prova">
+        </textarea>
+
+        <button class="btn" id="bp45Invia"
+          type="button" disabled>
+          Invia richiesta DEMO
+        </button>
+      </div>
+
+      <div class="vivo-card">
+        <h3>Professionista · Richieste ricevute</h3>
+        <button class="btn outline"
+          id="bp45Aggiorna" type="button">
+          Aggiorna richieste
+        </button>
+        <div id="bp45Elenco"></div>
+      </div>
+    </div>
+    <p id="bp45Stato" role="status">
+      Connessione in corso...
+    </p>
+  `;
+
+  const container = demo[0] ||
+    document.getElementById('professionisti');
+  container.after(section);
+
+  const el = id => document.getElementById(id);
+  const stato = msg => el('bp45Stato').textContent = msg;
+
+  try {
+    const cfg = JSON.parse(
+      localStorage.getItem(
+        'buropratika_public_config'
+      ) || '{}'
+    );
+
+    if (!cfg.key) {
+      stato('Configura la chiave pubblica Supabase e ' +
+        'accedi dal Fascicolo Vivo.');
+      return;
+    }
+
+    const { createClient } = await import(
+      'https://esm.sh/@supabase/supabase-js@2'
+    );
+
+    const sb = createClient(
+      'https://bqcaohfochwweymgfjtd.supabase.co',
+      cfg.key
+    );
+
+    const { data: auth, error: authError } =
+      await sb.auth.getUser();
+
+    if (authError || !auth.user) {
+      stato('Effettua prima il login nel Fascicolo Vivo.');
+      return;
+    }
+
+    const user = auth.user;
+
+    const { data: professionisti, error: e1 } =
+      await sb.rpc(
+        'bp_elenco_professionisti_verificati'
+      );
+
+    if (e1) throw e1;
+
+    const select = el('bp45Pro');
+    select.replaceChildren(
+      new Option('Seleziona professionista', '')
+    );
+
+    for (const p of professionisti || []) {
+      select.add(new Option(
+        [p.nome_studio || p.professione ||
+          'Professionista', p.provincia]
+          .filter(Boolean).join(' - '),
+        p.user_id
+      ));
+    }
+
+    el('bp45Invia').disabled =
+      !(professionisti || []).length;
+
+    async function caricaRichieste() {
+      const lista = el('bp45Elenco');
+      lista.textContent = 'Caricamento...';
+
+      const { data, error } = await sb
+        .from('bp_richieste_consulenza')
+        .select(
+          'id,tipo_pratica,territorio,descrizione,created_at'
+        )
+        .eq('professionista_user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(20);
+
+      if (error) {
+        lista.textContent = 'Errore: ' + error.message;
+        return;
+      }
+
+      lista.replaceChildren();
+
+      if (!data?.length) {
+        lista.textContent = 'Nessuna richiesta ricevuta.';
+        return;
+      }
+
+      for (const r of data) {
+        const card = document.createElement('div');
+        card.className = 'rule-card';
+
+        const titolo = document.createElement('strong');
+        titolo.textContent = r.tipo_pratica ||
+          'Consulenza';
+
+        const dettagli = document.createElement('p');
+        dettagli.textContent =
+          (r.territorio || 'Territorio non indicato') +
+          ' - ' + (r.descrizione || '');
+
+        const dataInvio = document.createElement('small');
+        dataInvio.textContent = r.created_at
+          ? new Date(r.created_at).toLocaleString('it-IT')
+          : '';
+
+        card.append(titolo, dettagli, dataInvio);
+        lista.append(card);
+      }
+    }
+
+    el('bp45Invia').addEventListener(
+      'click', async () => {
+        const pro = select.value;
+        const comune = el('bp45Comune').value.trim();
+        const descrizione =
+          el('bp45Descrizione').value.trim();
+
+        if (!pro || !comune || !descrizione) {
+          stato('Compila tutti i campi.');
+          return;
+        }
+
+        if (!confirm(
+          'Inviare questa richiesta di prova al ' +
+          'professionista selezionato?'
+        )) return;
+
+        const btn = el('bp45Invia');
+        btn.disabled = true;
+
+        try {
+          const { error } = await sb
+            .from('bp_richieste_consulenza')
+            .insert({
+              impresa_user_id: user.id,
+              professionista_user_id: pro,
+              tipo_pratica: el('bp45Tipo').value,
+              territorio: comune,
+              descrizione: descrizione
+            });
+
+          if (error) throw error;
+
+          stato('Richiesta DEMO salvata in Supabase.');
+          el('bp45Descrizione').value = '';
+        } catch (err) {
+          stato('Invio non riuscito: ' + err.message);
+        } finally {
+          btn.disabled = false;
+        }
+      }
+    );
+
+    el('bp45Aggiorna').addEventListener(
+      'click', caricaRichieste
+    );
+
+    await caricaRichieste();
+
+    stato((professionisti || []).length
+      ? 'Collegamento attivo. Usa dati fittizi.'
+      : 'Accesso attivo. Nessun altro professionista ' +
+        'verificato disponibile per questo account.');
+
+  } catch (err) {
+    stato('Errore di collegamento: ' + err.message);
+  }
+})();
+</script>
+
 </body>
 </html>
 
