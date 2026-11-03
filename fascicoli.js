@@ -41,8 +41,8 @@
       <label>
         Tipo di pratica
         <select name="tipo" required>
-          <option value="apertura">Apertura attività</option>
-          <option value="cessazione">Cessazione attività</option>
+          <option value="apertura">Apertura attivitÃ </option>
+          <option value="cessazione">Cessazione attivitÃ </option>
           <option value="subingresso">Subingresso</option>
         </select>
       </label>
@@ -63,7 +63,7 @@
       </label>
 
 <label>
-  Cerca attività o codice ATECO
+  Cerca attivitÃ  o codice ATECO
   <input
     type="search"
     id="bpAtecoRicerca"
@@ -72,9 +72,9 @@
 </label>
 
 <label>
-  Seleziona attività ATECO
+  Seleziona attivitÃ  ATECO
   <select name="codice_ateco" id="bpAtecoSelect">
-    <option value="">Seleziona un'attività</option>
+    <option value="">Seleziona un'attivitÃ </option>
   </select>
 </label>
 
@@ -180,12 +180,12 @@ atecoRicerca.insertAdjacentElement('afterend', suggerimentiAteco);
     const testo = atecoRicerca.value.trim().toLowerCase();
 
 const termine = testo
-  .replace(/\b(voglio|vorrei|aprire|avviare|un|una|il|la|attività|negozio di)\b/g, ' ')
+  .replace(/\b(voglio|vorrei|aprire|avviare|un|una|il|la|attivitÃ |negozio di)\b/g, ' ')
   .replace(/\s+/g, ' ')
   .trim();
 
     atecoSelect.replaceChildren(
-      new Option("Seleziona un'attività", '')
+      new Option("Seleziona un'attivitÃ ", '')
     );
     atecoDescrizione.value = '';
 
@@ -343,7 +343,7 @@ if (idsPratiche.length) {
 
   if (erroreScadenze) {
     boxScadenze.appendChild(
-      document.createTextNode(' — Dati non disponibili')
+      document.createTextNode(' â Dati non disponibili')
     );
   } else {
     const oggi = new Date();
@@ -372,7 +372,7 @@ if (idsPratiche.length) {
   }
 } else {
   boxScadenze.appendChild(
-    document.createTextNode(' — Nessuna pratica presente')
+    document.createTextNode(' â Nessuna pratica presente')
   );
 }
 
@@ -422,14 +422,14 @@ const isLaboratorio = /laboratorio|fabbricazione|produzione|manifattur|artigian/
 const isAlimentare = /aliment|ristor|gelat|panific|pasticcer|bar\b|bevande/.test(nomeAttivita);
 const checklist = {
   apertura: [
-    'Confermare il codice ATECO e l’attività effettivamente esercitata',
+    'Confermare il codice ATECO e lâattivitÃ  effettivamente esercitata',
     'Verificare i requisiti soggettivi e professionali specifici del settore',
     'Verificare presso il SUAP competente SCIA, comunicazioni e autorizzazioni applicabili',
-    'Verificare destinazione d’uso, conformità e sicurezza dei locali, se presenti',
+    'Verificare destinazione dâuso, conformitÃ  e sicurezza dei locali, se presenti',
     'Verificare gli adempimenti presso Registro Imprese e Camera di Commercio',
     'Verificare gli adempimenti fiscali, previdenziali e assicurativi applicabili',
     'Verificare eventuali obblighi ambientali, sanitari e di sicurezza sul lavoro',
-    'Confermare le fonti ufficiali e le regole aggiornate prima dell’invio'
+    'Confermare le fonti ufficiali e le regole aggiornate prima dellâinvio'
   ],
   cessazione: [
     'Verificare cessazione presso SUAP, se applicabile',
@@ -661,7 +661,7 @@ if (!settore) {
       boxAdempimenti,
       'p',
       'Nessuna regola verificata disponibile. ' +
-      'La ricerca non è completa: ' +
+      'La ricerca non Ã¨ completa: ' +
       'sono necessarie ulteriori verifiche.'
     );
   } else {
@@ -727,7 +727,7 @@ const { data: risposte, error: erroreLettura } =
 if (erroreLettura) throw erroreLettura;
 
 const modello = creaScelta(
-  'Modello attività',
+  'Modello attivitÃ ',
   [
     ['da_verificare', 'Da definire'],
     ['produzione', 'Produzione e vendita'],
@@ -741,7 +741,7 @@ const somministrazione = creaScelta(
   'Somministrazione al pubblico',
   [
     ['da_verificare', 'Da verificare'],
-    ['si', 'Sì'],
+    ['si', 'SÃ¬'],
     ['no', 'No']
   ],
   risposte?.somministrazione || 'da_verificare'
@@ -751,8 +751,8 @@ const locali = creaScelta(
   'Situazione dei locali',
   [
     ['da_verificare', 'Da verificare'],
-    ['esistenti', 'Locale già destinato all’attività'],
-    ['lavori', 'Lavori o cambio destinazione d’uso'],
+    ['esistenti', 'Locale giÃ  destinato allâattivitÃ '],
+    ['lavori', 'Lavori o cambio destinazione dâuso'],
     ['non_scelto', 'Locale non ancora individuato']
   ],
   risposte?.situazione_locali || 'da_verificare'
@@ -768,9 +768,9 @@ if (isNegozio) {
     'Superficie di vendita',
     [
       ['da_verificare', 'Da verificare'],
-      ['fino_150', 'Fino a 150 m²'],
-      ['151_250', 'Da 151 a 250 m²'],
-      ['oltre_250', 'Oltre 250 m²']
+      ['fino_150', 'Fino a 150 mÂ²'],
+      ['151_250', 'Da 151 a 250 mÂ²'],
+      ['oltre_250', 'Oltre 250 mÂ²']
     ],
     risposte?.superficie_vendita || 'da_verificare'
   );
@@ -779,7 +779,7 @@ if (isNegozio) {
     'Accesso del pubblico',
     [
       ['da_verificare', 'Da verificare'],
-      ['si', 'Sì'],
+      ['si', 'SÃ¬'],
       ['no', 'No']
     ],
     risposte?.accesso_pubblico || 'da_verificare'
@@ -803,7 +803,7 @@ if (isLaboratorio) {
     'Emissioni o scarichi da verificare',
     [
       ['da_verificare', 'Da verificare'],
-      ['si', 'Sì'],
+      ['si', 'SÃ¬'],
       ['no', 'No']
     ],
     risposte?.emissioni_scarichi || 'da_verificare'
@@ -994,6 +994,77 @@ if (erroreMotore) {
 
 card.appendChild(motoreBox);
 
+/* ANALISI NORMATIVA INTELLIGENTE V2 - DEMO
+   Sezione aggiuntiva: il motore originale resta invariato. */
+{
+  const analisiBox = document.createElement('div');
+  analisiBox.style.cssText =
+    'padding:14px;margin-top:18px;border:1px solid #176577;' +
+    'border-radius:12px;background:#f7fafb';
+  addText(analisiBox, 'h4', 'Analisi normativa intelligente - DEMO');
+  addText(analisiBox, 'p',
+    'Verifiche preliminari: non costituiscono autorizzazioni ' +
+    'o certificazioni di conformitÃ .');
+  const elencoAnalisi = document.createElement('div');
+  const aggiornaAnalisi = document.createElement('button');
+  aggiornaAnalisi.type = 'button';
+  aggiornaAnalisi.textContent = 'Aggiorna analisi normativa';
+
+  const mostraAnalisi = async () => {
+    aggiornaAnalisi.disabled = true;
+    elencoAnalisi.replaceChildren();
+    addText(elencoAnalisi, 'p', 'Caricamento verifiche...');
+    try {
+      const { data: controlliV2, error: erroreV2 } =
+        await sb.rpc('bp_analisi_pratica_v2', {
+          p_fascicolo_id: item.id
+        });
+      if (erroreV2) throw erroreV2;
+      elencoAnalisi.replaceChildren();
+      if (!controlliV2?.length) {
+        addText(elencoAnalisi, 'p',
+          'Nessuna verifica disponibile per questa pratica.');
+      }
+      for (const controllo of controlliV2 || []) {
+        const voce = document.createElement('div');
+        voce.style.cssText =
+          'padding:12px;margin:10px 0;background:white;' +
+          'border:1px solid #d9e3e3;border-radius:8px';
+        addText(voce, 'strong', controllo.titolo || 'Verifica');
+        addText(voce, 'p',
+          'Esito: ' + (controllo.esito || 'Da verificare'));
+        if (controllo.motivazione) {
+          addText(voce, 'p', controllo.motivazione);
+        }
+        if (controllo.risposta) {
+          addText(voce, 'p', 'Risposta: ' + controllo.risposta);
+        }
+        if (controllo.fonte_ufficiale &&
+            /^https:\/\//i.test(controllo.fonte_ufficiale)) {
+          const link = document.createElement('a');
+          link.href = controllo.fonte_ufficiale;
+          link.textContent = 'Consulta la fonte';
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          voce.appendChild(link);
+        }
+        elencoAnalisi.appendChild(voce);
+      }
+    } catch (e) {
+      elencoAnalisi.replaceChildren();
+      addText(elencoAnalisi, 'p',
+        'Analisi normativa non disponibile: ' + e.message);
+    } finally {
+      aggiornaAnalisi.disabled = false;
+    }
+  };
+
+  aggiornaAnalisi.addEventListener('click', mostraAnalisi);
+  analisiBox.append(aggiornaAnalisi, elencoAnalisi);
+  card.appendChild(analisiBox);
+  await mostraAnalisi();
+}
+
 /* CHECKLIST OPERATIVA ADEMPIMENTI */
 {
   const operativaBox = document.createElement('div');
@@ -1095,8 +1166,8 @@ card.appendChild(motoreBox);
     aggiornaAvanzamento();
 
     addText(operativaBox, 'p',
-      'Le spunte registrano attività operative, ' +
-      'non certificano la conformità normativa.');
+      'Le spunte registrano attivitÃ  operative, ' +
+      'non certificano la conformitÃ  normativa.');
 
   } catch (e) {
     avanzamentoOperativo.textContent =
@@ -1162,7 +1233,7 @@ if (isNegozio) {
 
   if (risposte?.accesso_pubblico === 'si') {
     verifichePersonalizzate.push(
-      'Verificare accessibilità, sicurezza e requisiti ' +
+      'Verificare accessibilitÃ , sicurezza e requisiti ' +
       'dei locali aperti al pubblico.'
     );
   }
@@ -1193,7 +1264,7 @@ if (verifichePersonalizzate.length) {
   );
 
   for (const verifica of verifichePersonalizzate) {
-    addText(valutazioneBox, 'p', '• ' + verifica);
+    addText(valutazioneBox, 'p', 'â¢ ' + verifica);
   }
 
   addText(
@@ -1213,7 +1284,7 @@ if (item.codice_ateco) {
   addText(regoleBox, 'h4', 'Verifiche collegate al codice ATECO');
   addText(regoleBox, 'p',
     'Codice: ' + item.codice_ateco +
-    ' — Indicazioni preliminari da verificare.');
+    ' â Indicazioni preliminari da verificare.');
 
   const { data: regole, error: erroreRegole } = await sb
     .from('bp_regole_ateco_v1')
@@ -1237,7 +1308,7 @@ if (item.codice_ateco) {
 
     if (!applicabili.length) {
       addText(regoleBox, 'p',
-        'Nessuna regola ATECO disponibile per questa attività: verifica normativa necessaria.');
+        'Nessuna regola ATECO disponibile per questa attivitÃ : verifica normativa necessaria.');
     }
 
     for (const r of applicabili) {
@@ -1734,8 +1805,8 @@ doc.head.appendChild(stilePDF);
 
     aggiungi(
       'p',
-      'Le spunte indicano attività operative dichiarate ' +
-      'come svolte, non certificano la conformità normativa.'
+      'Le spunte indicano attivitÃ  operative dichiarate ' +
+      'come svolte, non certificano la conformitÃ  normativa.'
     );
 
   } catch (errorePDF) {
@@ -1884,5 +1955,3 @@ denominazione_attivita: String(
     setStatus('Errore: ' + error.message);
   }
 })();
-
-
