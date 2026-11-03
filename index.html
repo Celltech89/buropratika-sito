@@ -952,6 +952,48 @@ get('proDownload').addEventListener('click',()=>{
 })();
 </script>
 
+<section id="demo-investitori" style="max-width:1080px;margin:30px auto;padding:24px;background:white;border:1px solid #d9e3e3;border-radius:18px">
+  <h2>Demo investitori — BuroPratika</h2>
+  <p>Due opportunità di ricavo in un'unica piattaforma.</p>
+
+  <h3>1. Pratiche per le imprese</h3>
+  <p>Il cliente prepara il fascicolo, individua gli adempimenti da verificare e può richiedere assistenza professionale.</p>
+  <a href="#fascicolo-vivo">Esplora il fascicolo</a>
+
+  <h3>2. Servizi per commercialisti e professionisti</h3>
+  <p>I professionisti possono gestire pratiche e ricevere opportunità di nuovi incarichi, quando il servizio sarà operativo.</p>
+  <a href="#professionisti">Esplora l'area professionisti</a>
+
+  <h3>Simulazione dei ricavi mensili</h3>
+  <label>Pratiche al mese
+    <input id="demoPratiche" type="number" min="0" value="100">
+  </label>
+  <label>Ricavo medio per pratica (€)
+    <input id="demoPrezzo" type="number" min="0" value="39">
+  </label>
+  <label>Incarichi professionali al mese
+    <input id="demoIncarichi" type="number" min="0" value="30">
+  </label>
+  <label>Commissione media per incarico (€)
+    <input id="demoCommissione" type="number" min="0" value="25">
+  </label>
+  <h3 id="demoTotale"></h3>
+  <p><small>Simulazione illustrativa di ricavi lordi, non una previsione. Commissioni subordinate ad accordi e verifiche normative.</small></p>
+</section>
+<script>
+(function(){
+  const ids=['demoPratiche','demoPrezzo','demoIncarichi','demoCommissione'];
+  const inputs=ids.map(id=>document.getElementById(id));
+  function aggiorna(){
+    const [p,prezzo,i,commissione]=inputs.map(x=>Math.max(0,Number(x.value)||0));
+    document.getElementById('demoTotale').textContent=
+      'Ricavi mensili ipotetici: '+(p*prezzo+i*commissione).toLocaleString('it-IT',{style:'currency',currency:'EUR'});
+  }
+  inputs.forEach(x=>x.addEventListener('input',aggiorna));
+  aggiorna();
+})();
+</script>
+
 </body>
 </html>
 
