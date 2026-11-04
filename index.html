@@ -1246,6 +1246,44 @@ get('proDownload').addEventListener('click',()=>{
  
 <script src="buropratika-percorso-guidato-51.js" defer></script>
 
+<script>
+window.addEventListener('load', function () {
+  const id = 'bp50-guide';
+  const existing = document.getElementById(id);
+
+  if (existing) {
+    existing.hidden = false;
+    existing.style.setProperty('display', 'block', 'important');
+    return;
+  }
+
+  window.BP_GUIDA_50 = false;
+
+  const script = document.createElement('script');
+  script.src = './buropratika-percorso-guidato-51.js?fix=2';
+
+  script.onload = function () {
+    if (!document.getElementById(id)) {
+      showError('Il modulo si carica, ma non crea la sezione.');
+    }
+  };
+
+  script.onerror = function () {
+    showError('File 51.js non trovato o non raggiungibile.');
+  };
+
+  function showError(message) {
+    const box = document.createElement('div');
+    box.style.cssText =
+      'padding:20px;margin:20px;background:#fff3cd;color:#333';
+    box.textContent = 'Percorso Guidato: ' + message;
+    document.body.prepend(box);
+  }
+
+  document.body.appendChild(script);
+});
+</script>
+
 </body>
 </html>
 
